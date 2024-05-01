@@ -1,20 +1,20 @@
-# State updated helper
+# Carousel helper
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/kgn3400/state_updated)
-![GitHub all releases](https://img.shields.io/github/downloads/kgn3400/state_updated/total)
-![GitHub last commit](https://img.shields.io/github/last-commit/kgn3400/state_updated)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/state_updated)
-[![Validate% with hassfest](https://github.com/kgn3400/state_updated/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/state_updated/actions/workflows/hassfest.yaml)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/kgn3400/carousel)
+![GitHub all releases](https://img.shields.io/github/downloads/kgn3400/carousel/total)
+![GitHub last commit](https://img.shields.io/github/last-commit/kgn3400/carousel)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/carousel)
+[![Validate% with hassfest](https://github.com/kgn3400/carousel/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/carousel/actions/workflows/hassfest.yaml)
 
-The state updated helper integration allows you to create binary sensors which monitor another entity's __state__ or __state_attributes__. It exposes the new and old value for the monitored entity and are cleared after the user defined time period has expired.
+The Carousel helper integration allows you to create binary sensors which monitor another entity's __state__ or __state_attributes__. It exposes the new and old value for the monitored entity and are cleared after the user defined time period has expired.
 
 For installation instructions until the State updated helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
 
-[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=state_updated)
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=carousel)
 
 ## Configuration
 
-Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [State updated helper](https://my.home-assistant.io/redirect/config_flow_start?domain=state_updated) option.
+Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [State updated helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
 
 <img src="https://github.com/kgn3400/state_updated/blob/main/images/config.png" width="500" height="auto" alt="Config">
 <br/>
