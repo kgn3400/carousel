@@ -1,0 +1,15 @@
+{
+  "domain": "carousel",
+  "name": "Carousel",
+  "codeowners": ["@kgn3400"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/kgn3400/carousel",
+  "homekit": {},
+  "integration_type": "helper",
+  "iot_class": "calculated",
+  "requirements": [],
+  "ssdp": [],
+  "version": "1.0.0",
+  "zeroconf": []
+}

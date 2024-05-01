@@ -1,0 +1,127 @@
+# Service ID
+sensor_add:
+  target:
+    entity:
+      integration: carousel
+      domain: sensor
+  fields:
+    add_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: sensor
+    show_x_times:
+      required: false
+      example: 10
+      # The default field value
+      default: 10
+      selector:
+        number:
+          min: 0
+          unit_of_measurement: "Times"
+          mode: box
+    show_for:
+      required: false
+      selector:
+        duration:
+          enable_day: true
+# Service ID
+sensor_show_next:
+  target:
+    entity:
+      integration: carousel
+      domain: sensor
+# Service ID
+sensor_show_prev:
+  target:
+    entity:
+      integration: carousel
+      domain: sensor
+# Service ID
+sensor_remove:
+  target:
+    entity:
+      integration: carousel
+      domain: sensor
+  fields:
+    remove_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: sensor
+# Service ID
+sensor_show_entity:
+  target:
+    entity:
+      integration: carousel
+      domain: sensor
+  fields:
+    show_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: sensor
+
+# Service ID
+binary_sensor_add:
+  target:
+    entity:
+      integration: carousel
+      domain: binary_sensor
+  fields:
+    add_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: binary_sensor
+    show_x_times:
+      required: false
+      example: 10
+      # The default field value
+      default: 10
+      selector:
+        number:
+          min: 0
+          unit_of_measurement: "Times"
+          mode: box
+    show_for:
+      required: false
+      selector:
+        duration:
+          enable_day: true
+# Service ID
+binary_sensor_show_next:
+  target:
+    entity:
+      integration: carousel
+      domain: binary_sensor
+# Service ID
+binary_sensor_show_prev:
+  target:
+    entity:
+      integration: carousel
+      domain: binary_sensor
+# Service ID
+binary_sensor_remove:
+  target:
+    entity:
+      integration: carousel
+      domain: binary_sensor
+  fields:
+    remove_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: binary_sensor
+# Service ID
+binary_sensor_show_entity:
+  target:
+    entity:
+      integration: carousel
+      domain: binary_sensor
+  fields:
+    show_entity_id:
+      required: true
+      selector:
+        entity:
+          domain: binary_sensor

@@ -1,0 +1,9 @@
+{
+  "services": {
+    "sensor_add": "mdi:eye-plus-outline",
+    "sensor_show_next": "mdi:skip-next",
+    "sensor_show_prev": "mdi:skip-previous",
+    "sensor_remove": "mdi:eye-remove-outline",
+    "sensor_show_entity": "mdi:eye-outline"
+  }
+}
