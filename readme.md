@@ -6,7 +6,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/carousel)
 [![Validate% with hassfest](https://github.com/kgn3400/carousel/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/carousel/actions/workflows/hassfest.yaml)
 
-The Carousel helper integration allows you to create binary sensors which monitor another entity's __state__ or __state_attributes__. It exposes the new and old value for the monitored entity and are cleared after the user defined time period has expired.
+The Carousel helper integration allows you to create a binary_sensor or sensor which rotate through a set of binary_sensors/sensors with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
 
 For installation instructions until the State updated helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
 
@@ -16,10 +16,7 @@ For installation instructions until the State updated helper is part of HACS, [s
 
 Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [State updated helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
 
-<img src="https://github.com/kgn3400/state_updated/blob/main/images/config.png" width="500" height="auto" alt="Config">
-<br/>
-
-<img src="https://github.com/kgn3400/state_updated/blob/main/images/options.png" width="500" height="auto" alt="Options">
+<img src="images/config.png" width="500" height="auto" alt="Config">
 <br/>
 
 | Field name | Mandatory/Optional | Description |
