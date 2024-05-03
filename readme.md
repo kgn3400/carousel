@@ -14,47 +14,29 @@ For installation instructions until the State updated helper is part of HACS, [s
 
 ## Configuration
 
-Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [State updated helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
+Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [Carousel helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
 
 <img src="images/config.png" width="500" height="auto" alt="Config">
 <br/>
 
-| Field name | Mandatory/Optional | Description |
-|------------|------------------|-------------|
-| Name | Optional | Name. If empty, entity id name are used  |
-| Entity id | Mandatory | Entity that this sensor tracks  |
-| Attribute | Optional | Attribute of entity that this sensor tracks  |
-| Icon | Mandatory | Icon used by entity  |
-| Clear updates after | Mandatory | User defined time period indicating when to clear the entity  |
-| Text template | Optional | Defines a template to create the text state attribute. Value = new_value, old_value, entity_id, attribute and last_updated |
-
-## Exposed state attributes
-
-The state updated helper integration provides the following state attributes.
-
-| Attribute | Description |
-|-----------|-------------|
-| new_value  | New state/state_attribute value |
-| old_value  | Old state/state_attribute value |
-| text  | Text generated from template |
-| last_updated  | Last time the state/state_attribute was updated |
+It's possible to synchronize the rotation between multiple carousels by using the optional same Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
 
 ## Services
 
-Available services: __reset__ and __reset_all__.
+Available services: __add__, __remove__, __show_entity__, __show_next__ and __show_prev__
 
-### Service state_updated.reset
+### Service carousel.binary_sensor_add/carousel.sensor_add
 
-Reset a specific State Updated entity.
+Add entity to Carousel helper.
 
-|Service data attribute | Optional | Description|
-|-----------------------|----------|------------|
-|entity_id | No | Name of the State updated entity to take reset.|
+### Service carousel.binary_sensor_remove/carousel.sensor_remove
 
-### Service state_updated.reset_all
+Remove entity from Carousel helper.
 
-Reset all State updated entities.
+### Service carousel.binary_sensor_show_next/carousel.sensor_show_next
 
-## Usage scenario
+Show next entity in Carousel helper.
 
-Using the Scrape integration for retrieving latest software version. By letting the State updated helper monitor the Scrape entity, a card can be built that only shows when there are changes and a content about what has changed.
+### Service carousel.binary_sensor_show_prev/carousel.sensor_show_prev
+
+Show previous ext entity in Carousel helper.
