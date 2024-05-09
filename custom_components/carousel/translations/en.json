@@ -1,225 +1,225 @@
 {
-  "title": "Carousel",
-  "entity_component": {
-    "_": {
-      "name": "Carousel"
+    "title": "Carousel",
+    "entity_component": {
+        "_": {
+            "name": "Carousel"
+        }
+    },
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "missing_selection": "Nothing selected",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "title": "Carousel helper",
+                "description": "The carousel helper allows you to create a sensor which rotate between the chosen entities.",
+                "menu_options": {
+                    "binary_sensor": "Add binary sensor carousel",
+                    "camera": "Add camera carousel",
+                    "sensor": "Add sensor carousel"
+                }
+            },
+            "sensor": {
+                "title": "Carousel helper",
+                "data": {
+                    "name": "Sensor carousel name",
+                    "entity_ids": "Entities this sensor tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate sensors every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            },
+            "binary_sensor": {
+                "title": "Carousel helper",
+                "data": {
+                    "name": "Binary Sensor carousel name",
+                    "entity_ids": "Entities this binary sensor tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate binary sensors every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            },
+            "camera": {
+                "title": "Carousel helper",
+                "data": {
+                    "name": "Camera carousel name",
+                    "entity_ids": "Entities this camera tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate cameras every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            }
+        }
+    },
+    "options": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "missing_selection": "Nothing selected",
+            "same_master": "Master interval trigger is the same as current entity",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "init_binary_sensor": {
+                "data": {
+                    "name": "Binary sensor name",
+                    "entity_ids": "Entities this binary sensor tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate binary sensors every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            },
+            "init_sensor": {
+                "data": {
+                    "name": "Sensor name",
+                    "entity_ids": "Entities this sensor tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate sensors every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            },
+            "init_camera": {
+                "data": {
+                    "name": "Camera name",
+                    "entity_ids": "Entities this camera tracks",
+                    "icon": "Icon",
+                    "rotate_every_minutes": "Rotate cameras every minutes",
+                    "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
+                    "restart_timer": "Restart Timer helper automatic"
+                },
+                "data_description": {
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                }
+            }
+        }
+    },
+    "issues": {
+        "missing_entity": {
+            "description": "It looks like either entity `{entity}` has been deleted or renamed, which are used in Carousel helper `{carousel_helper}`. \n\n Please fix this problem.",
+            "title": "Carousel helper: Entity deleted or renamed"
+        },
+        "missing_timer_entity": {
+            "description": "It looks like either the Timer helper `{timer_entity}` has been deleted or renamed for use in Carousel helper `{entity}`. \n\n Please fix this problem.",
+            "title": "Carousel helper: Timer helper deleted or renamed"
+        }
+    },
+    "services": {
+        "sensor_add": {
+            "description": "Add sensor to carousel.",
+            "name": "Add",
+            "fields": {
+                "add_entity_id": {
+                    "description": "Add sensor to carousel.",
+                    "name": "Sensor"
+                },
+                "show_x_times": {
+                    "description": "Show sensor x times before removing.",
+                    "name": "Show"
+                },
+                "show_for": {
+                    "description": "Show sensor for duration before removing.",
+                    "name": "Show for"
+                }
+            }
+        },
+        "sensor_show_next": {
+            "description": "Show next sensor.",
+            "name": "Show next sensor"
+        },
+        "sensor_show_prev": {
+            "description": "Show previous sensor.",
+            "name": "Show previous sensor"
+        },
+        "sensor_remove": {
+            "description": "Remove sensor from carousel.",
+            "name": "Remove sensor",
+            "fields": {
+                "remove_entity_id": {
+                    "description": "Sensor to remove.",
+                    "name": "Sensor"
+                }
+            }
+        },
+        "sensor_show_entity": {
+            "description": "Show sensor in carousel.",
+            "name": "Show sensor",
+            "fields": {
+                "show_entity_id": {
+                    "description": "Sensor to show.",
+                    "name": "Sensor"
+                }
+            }
+        },
+        "binary_sensor_add": {
+            "description": "Add binary sensor to carousel.",
+            "name": "Add",
+            "fields": {
+                "add_entity_id": {
+                    "description": "Add binary sensor to carousel.",
+                    "name": "Binary sensor"
+                },
+                "show_x_times": {
+                    "description": "Show binary sensor x times before removing.",
+                    "name": "Show"
+                },
+                "show_for": {
+                    "description": "Show binary sensor for duration before removing.",
+                    "name": "Show for"
+                }
+            }
+        },
+        "binary_sensor_show_next": {
+            "description": "Show next binary sensor.",
+            "name": "Show next binary sensor"
+        },
+        "binary_sensor_show_prev": {
+            "description": "Show previous binary sensor.",
+            "name": "Show previous binary sensor"
+        },
+        "binary_sensor_remove": {
+            "description": "Remove binary sensor from carousel.",
+            "name": "Remove binary sensor",
+            "fields": {
+                "remove_entity_id": {
+                    "description": "Sensor to remove.",
+                    "name": "Sensor"
+                }
+            }
+        },
+        "binary_sensor_show_entity": {
+            "description": "Show binary sensor in carousel.",
+            "name": "Show binary sensor",
+            "fields": {
+                "show_entity_id": {
+                    "description": "Binary sensor to show.",
+                    "name": "Binary sensor"
+                }
+            }
+        }
     }
-  },
-  "config": {
-    "abort": {
-      "already_configured": "Device is already configured"
-    },
-    "error": {
-      "missing_selection": "Nothing selected",
-      "unknown": "Unexpected error"
-    },
-    "step": {
-      "user": {
-        "title": "Carousel helper",
-        "description": "The carousel helper allows you to create a sensor which rotate between the choosen entities.",
-        "menu_options": {
-          "binary_sensor": "Add binary sensor carousel",
-          "camera": "Add camera carousel",
-          "sensor": "Add sensor carousel"
-        }
-      },
-      "sensor": {
-        "title": "Carousel helper",
-        "data": {
-          "name": "Sensor carousel name",
-          "entity_ids": "Entities this sensor tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate sensors every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      },
-      "binary_sensor": {
-        "title": "Carousel helper",
-        "data": {
-          "name": "Binay Sensor carousel name",
-          "entity_ids": "Entities this binary sensor tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate binary sensors every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      },
-      "camera": {
-        "title": "Carousel helper",
-        "data": {
-          "name": "Camera carousel name",
-          "entity_ids": "Entities this camaera tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate cameras every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      }
-    }
-  },
-  "options": {
-    "abort": {
-      "already_configured": "Device is already configured"
-    },
-    "error": {
-      "missing_selection": "Nothing selected",
-      "same_master": "Master interval trigger is the same as current entity",
-      "unknown": "Unexpected error"
-    },
-    "step": {
-      "init_binary_sensor": {
-        "data": {
-          "name": "Binary sensor name",
-          "entity_ids": "Entities this binary sensor tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate binary sensors every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      },
-      "init_sensor": {
-        "data": {
-          "name": "Sensor name",
-          "entity_ids": "Entities this sensor tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate sensors every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      },
-      "init_camera": {
-        "data": {
-          "name": "Camera name",
-          "entity_ids": "Entities this camera tracks",
-          "icon": "Icon",
-          "rotate_every_minutes": "Rotate cameras every minutes",
-          "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-          "restart_timer": "Restart Timer helper automatic"
-        },
-        "data_description": {
-          "icon": "If icon is not filled out, the icon from the tracked entities is used."
-        }
-      }
-    }
-  },
-  "issues": {
-    "missing_entity": {
-      "description": "It looks like either entity `{entity}` has been deleted or removed, which are used in Carousel helper `{carousel_helper}`. \n\n Please fix this problem.",
-      "title": "Carousel helper: Entity deleted or renamed"
-    },
-    "missing_timer_entity": {
-      "description": "It looks like either the Timer helper `{timer_entity}` has been deleted or removed for use in Carousel helper `{entity}`. \n\n Please fix this problem.",
-      "title": "Carousel helper: Timer helper deleted or renamed"
-    }
-  },
-  "services": {
-    "sensor_add": {
-      "description": "Add sensor to carousel.",
-      "name": "Add",
-      "fields": {
-        "add_entity_id": {
-          "description": "Add sensor to carousel.",
-          "name": "Sensor"
-        },
-        "show_x_times": {
-          "description": "Show sensor x times before removing.",
-          "name": "Show"
-        },
-        "show_for": {
-          "description": "Show sensor for duration before removing.",
-          "name": "Show for"
-        }
-      }
-    },
-    "sensor_show_next": {
-      "description": "Show next sensor.",
-      "name": "Show next sensor"
-    },
-    "sensor_show_prev": {
-      "description": "Show previus sensor.",
-      "name": "Show previus sensor"
-    },
-    "sensor_remove": {
-      "description": "Remove sensor from carousel.",
-      "name": "Remove sensor",
-      "fields": {
-        "remove_entity_id": {
-          "description": "Sensor to remove.",
-          "name": "Sensor"
-        }
-      }
-    },
-    "sensor_show_entity": {
-      "description": "Show sensor in carousel.",
-      "name": "Show sensor",
-      "fields": {
-        "show_entity_id": {
-          "description": "Sensor to show.",
-          "name": "Sensor"
-        }
-      }
-    },
-    "binary_sensor_add": {
-      "description": "Add binary sensor to carousel.",
-      "name": "Add",
-      "fields": {
-        "add_entity_id": {
-          "description": "Add binary sensor to carousel.",
-          "name": "Binary sensor"
-        },
-        "show_x_times": {
-          "description": "Show binary sensor x times before removing.",
-          "name": "Show"
-        },
-        "show_for": {
-          "description": "Show binary sensor for duration before removing.",
-          "name": "Show for"
-        }
-      }
-    },
-    "binary_sensor_show_next": {
-      "description": "Show next binary sensor.",
-      "name": "Show binary next sensor"
-    },
-    "binary_sensor_show_prev": {
-      "description": "Show previus binary sensor.",
-      "name": "Show previus sensor"
-    },
-    "binary_sensor_remove": {
-      "description": "Remove binary sensor from carousel.",
-      "name": "Remove binary sensor",
-      "fields": {
-        "remove_entity_id": {
-          "description": "Sensor to remove.",
-          "name": "Sensor"
-        }
-      }
-    },
-    "binary_sensor_show_entity": {
-      "description": "Show binary sensor in carousel.",
-      "name": "Show binary sensor",
-      "fields": {
-        "show_entity_id": {
-          "description": "Bianry sensor to show.",
-          "name": "Binary sensor"
-        }
-      }
-    }
-  }
 }

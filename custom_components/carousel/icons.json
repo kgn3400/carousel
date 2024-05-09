@@ -4,6 +4,11 @@
     "sensor_show_next": "mdi:skip-next",
     "sensor_show_prev": "mdi:skip-previous",
     "sensor_remove": "mdi:eye-remove-outline",
-    "sensor_show_entity": "mdi:eye-outline"
+    "sensor_show_entity": "mdi:eye-outline",
+    "binary_sensor_add": "mdi:eye-plus-outline",
+    "binary_sensor_show_next": "mdi:skip-next",
+    "binary_sensor_show_prev": "mdi:skip-previous",
+    "binary_sensor_remove": "mdi:eye-remove-outline",
+    "binary_sensor_show_entity": "mdi:eye-outline"
   }
 }

@@ -16,7 +16,9 @@ For installation instructions until the State updated helper is part of HACS, [s
 
 Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [Carousel helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
 
-<img src="images/config.png" width="400" height="auto" alt="Config">
+<!-- <img src="images/config.png" width="400" height="auto" alt="Config"> -->
+<img src="https://github.com/kgn3400/carousel/blob/main/images/config.png" width="400" height="auto" alt="Config">
+<br/>
 <br/>
 
 It's possible to synchronize the rotation between multiple carousels by using the optional same Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
