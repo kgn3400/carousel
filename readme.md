@@ -6,7 +6,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/carousel)
 [![Validate% with hassfest](https://github.com/kgn3400/carousel/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/carousel/actions/workflows/hassfest.yaml)
 
-The Carousel helper integration allows you to create a binary_sensor or sensor which rotate through a set of binary_sensors/sensors with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
+The Carousel helper integration allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
 
 For installation instructions until the State updated helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
 
