@@ -95,6 +95,9 @@ async def _create_form(
             CONF_RESTART_TIMER,
             default=user_input.get(CONF_RESTART_TIMER, False),
         ): BooleanSelector(),
+    }
+
+    CONFIG_OPTIONS_ENTITIES = {
         vol.Required(
             CONF_ENTITY_IDS,
             default=user_input.get(CONF_ENTITY_IDS, []),
@@ -105,10 +108,12 @@ async def _create_form(
 
     match step:
         case "init":
-            return vol.Schema(CONFIG_OPTIONS)
+            return vol.Schema({**CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES})
 
         case "user" | _:
-            return vol.Schema({**CONFIG_NAME, **CONFIG_OPTIONS})
+            return vol.Schema(
+                {**CONFIG_NAME, **CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES}
+            )
 
 
 # ------------------------------------------------------------------

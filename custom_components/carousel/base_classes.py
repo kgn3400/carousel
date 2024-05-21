@@ -331,7 +331,9 @@ class BaseCarousel(Entity):
                 self.current_entity.entity_id, None
             )
         else:
-            await self.async_create_issue_entity(self.current_entity.entity_id)
+            await self.async_create_issue_entity(
+                self.current_entity.entity_id, TRANSLATION_KEY_MISSING_ENTITY
+            )
             self.entities_list.pop(self.current_entity_pos)
             await self.async_refresh()
             return
