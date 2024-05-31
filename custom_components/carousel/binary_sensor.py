@@ -8,10 +8,8 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_FRIENDLY_NAME, ATTR_ICON, ATTR_UNIT_OF_MEASUREMENT
-from homeassistant.core import HomeAssistant, State
-from homeassistant.helpers import entity_registry as er, icon as ic
-from homeassistant.helpers.entity import get_device_class
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import CONF_ENTITY_IDS, TRANSLATION_KEY
@@ -82,15 +80,17 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
     async def async_refresh(self) -> None:
         """Refresh."""
 
-        await self.async_refresh_common_first_part()
+        await self.async_refresh_common()
 
-        self.current_entity = self.entities_list[
-            self.current_entity_pos
-        ] = await self.async_get_entity_info(self.current_entity)
+        # await self.async_refresh_common_first_part()
 
-        self.device_class = self.current_entity.device_class
+        # self.current_entity = self.entities_list[
+        #     self.current_entity_pos
+        # ] = await self.async_get_entity_info(self.current_entity)
 
-        await self.async_refresh_common_last_part()
+        # self.device_class = self.current_entity.device_class
+
+        # await self.async_refresh_common_last_part()
 
     # ------------------------------------------------------
     @property
@@ -127,7 +127,7 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
         """Get the state."""
 
         if self.current_entity is not None:
-            return self.current_entity.state.state
+            return self.current_entity.state.state == "on"
 
         return None
 
@@ -182,55 +182,3 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
         return self.coordinator.last_update_success
 
     # ------------------------------------------------------
-
-    async def get_entity_infoX(
-        self, entity_info: BinarySensorEntityInfo
-    ) -> BinarySensorEntityInfo:
-        """Get entity info."""
-        state: State | None = self.hass.states.get(entity_info.entity_id)
-
-        if state is not None:
-            entity_info.friendly_name = state.attributes.get(ATTR_FRIENDLY_NAME, None)
-            entity_info.icon = state.attributes.get(ATTR_ICON, None)
-            entity_info.device_class = get_device_class(
-                self.hass, entity_info.entity_id
-            )
-            entity_info.unit_of_measurement = state.attributes.get(
-                ATTR_UNIT_OF_MEASUREMENT, None
-            )
-
-            if entity_info.icon is not None or entity_info.device_class is not None:
-                return entity_info
-
-            entity_registry = er.async_get(self.hass)
-            source_entity = entity_registry.async_get(entity_info.entity_id)
-
-            if source_entity is not None:
-                if source_entity.icon is not None:
-                    entity_info.icon = source_entity.icon
-                    return entity_info
-
-                icons = await ic.async_get_icons(
-                    self.hass,
-                    "entity",
-                    integrations=[source_entity.platform],
-                    # "entity_component",
-                    # integrations=["sensor"],
-                )
-
-                if (
-                    icons is not None
-                    and source_entity.platform in icons
-                    and source_entity.domain in icons[source_entity.platform]
-                    and source_entity.translation_key
-                    in icons[source_entity.platform][source_entity.domain]
-                    and "default"
-                    in icons[source_entity.platform][source_entity.domain][
-                        source_entity.translation_key
-                    ]
-                ):
-                    entity_info.icon = icons[source_entity.platform][
-                        source_entity.domain
-                    ][source_entity.translation_key]["default"]
-
-        return entity_info

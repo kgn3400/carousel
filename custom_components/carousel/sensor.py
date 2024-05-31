@@ -10,14 +10,13 @@ from homeassistant.components.sensor import (  # SensorDeviceClass,; SensorEntit
 )
 from homeassistant.components.sensor.const import SensorDeviceClass
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_FRIENDLY_NAME, ATTR_ICON, ATTR_UNIT_OF_MEASUREMENT
-from homeassistant.core import HomeAssistant, State
-from homeassistant.helpers import entity_registry as er, icon as ic
-from homeassistant.helpers.entity import get_device_class
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.template import Template
 from homeassistant.util import dt as dt_util
 
-from .const import CONF_ENTITY_IDS, TRANSLATION_KEY
+from .const import CONF_ENTITY_IDS, CONF_SHOW_IF_TEMPLATE, TRANSLATION_KEY
 
 
 # ------------------------------------------------------
@@ -88,13 +87,47 @@ class CarouselSensor(SensorEntity, BaseCarousel):
     async def async_refresh(self) -> None:
         """Refresh."""
 
-        await self.async_refresh_common_first_part()
+        await self.async_refresh_common()
+        return
 
-        self.current_entity = self.entities_list[
-            self.current_entity_pos
-        ] = await self.async_get_entity_info(self.current_entity)
+        # ------------------------------------------------------------------
+        async def async_refresh_entity():
+            await self.async_refresh_common_first_part()
 
-        self.device_class = self.current_entity.device_class
+            self.current_entity = self.entities_list[
+                self.current_entity_pos
+            ] = await self.async_get_entity_info(self.current_entity)
+
+            self.device_class = self.current_entity.device_class
+
+        await async_refresh_entity()
+
+        tmp_res: str = ""
+
+        if len(self.entities_list) > 0 and self.entry.options.get(
+            CONF_SHOW_IF_TEMPLATE, ""
+        ):
+            while tmp_res != "True" and any(
+                item.is_visible for item in self.entities_list
+            ):
+                self.async_write_ha_state()
+
+                value_template: Template | None = Template(
+                    str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
+                )
+
+                tmp_res = str(value_template.async_render_with_possible_json_value(""))
+
+                if tmp_res == "True":
+                    self.entities_list[self.current_entity_pos].is_visible = True
+
+                else:
+                    self.entities_list[self.current_entity_pos].is_visible = False
+                    await async_refresh_entity()
+
+            if not any(item.is_visible for item in self.entities_list):
+                self.current_entity = None
+                return
 
         await self.async_refresh_common_last_part()
 
@@ -177,6 +210,11 @@ class CarouselSensor(SensorEntity, BaseCarousel):
         if self.current_entity is not None and self.current_entity.state is not None:
             attr = self.current_entity.state.attributes.copy()
 
+        if any(item.is_visible for item in self.entities_list):
+            attr["any entities visible"] = True
+        else:
+            attr["any entities visible"] = False
+
         return attr
 
     # ------------------------------------------------------
@@ -203,52 +241,52 @@ class CarouselSensor(SensorEntity, BaseCarousel):
         return self.coordinator.last_update_success
 
     # ------------------------------------------------------
-    async def get_entity_infoX(self, entity_info: SensorEntityInfo) -> SensorEntityInfo:
-        """Get entity info."""
-        state: State | None = self.hass.states.get(entity_info.entity_id)
+    # async def get_entity_infoX(self, entity_info: SensorEntityInfo) -> SensorEntityInfo:
+    #     """Get entity info."""
+    #     state: State | None = self.hass.states.get(entity_info.entity_id)
 
-        if state is not None:
-            entity_info.friendly_name = state.attributes.get(ATTR_FRIENDLY_NAME, None)
-            entity_info.icon = state.attributes.get(ATTR_ICON, None)
-            entity_info.device_class = get_device_class(
-                self.hass, entity_info.entity_id
-            )
-            entity_info.unit_of_measurement = state.attributes.get(
-                ATTR_UNIT_OF_MEASUREMENT, None
-            )
+    #     if state is not None:
+    #         entity_info.friendly_name = state.attributes.get(ATTR_FRIENDLY_NAME, None)
+    #         entity_info.icon = state.attributes.get(ATTR_ICON, None)
+    #         entity_info.device_class = get_device_class(
+    #             self.hass, entity_info.entity_id
+    #         )
+    #         entity_info.unit_of_measurement = state.attributes.get(
+    #             ATTR_UNIT_OF_MEASUREMENT, None
+    #         )
 
-            if entity_info.icon is not None or entity_info.device_class is not None:
-                return entity_info
+    #         if entity_info.icon is not None or entity_info.device_class is not None:
+    #             return entity_info
 
-            entity_registry = er.async_get(self.hass)
-            source_entity = entity_registry.async_get(entity_info.entity_id)
+    #         entity_registry = er.async_get(self.hass)
+    #         source_entity = entity_registry.async_get(entity_info.entity_id)
 
-            if source_entity is not None:
-                if source_entity.icon is not None:
-                    entity_info.icon = source_entity.icon
-                    return entity_info
+    #         if source_entity is not None:
+    #             if source_entity.icon is not None:
+    #                 entity_info.icon = source_entity.icon
+    #                 return entity_info
 
-                icons = await ic.async_get_icons(
-                    self.hass,
-                    "entity",
-                    integrations=[source_entity.platform],
-                    # "entity_component",
-                    # integrations=["sensor"],
-                )
+    #             icons = await ic.async_get_icons(
+    #                 self.hass,
+    #                 "entity",
+    #                 integrations=[source_entity.platform],
+    #                 # "entity_component",
+    #                 # integrations=["sensor"],
+    #             )
 
-                if (
-                    icons is not None
-                    and source_entity.platform in icons
-                    and source_entity.domain in icons[source_entity.platform]
-                    and source_entity.translation_key
-                    in icons[source_entity.platform][source_entity.domain]
-                    and "default"
-                    in icons[source_entity.platform][source_entity.domain][
-                        source_entity.translation_key
-                    ]
-                ):
-                    entity_info.icon = icons[source_entity.platform][
-                        source_entity.domain
-                    ][source_entity.translation_key]["default"]
+    #             if (
+    #                 icons is not None
+    #                 and source_entity.platform in icons
+    #                 and source_entity.domain in icons[source_entity.platform]
+    #                 and source_entity.translation_key
+    #                 in icons[source_entity.platform][source_entity.domain]
+    #                 and "default"
+    #                 in icons[source_entity.platform][source_entity.domain][
+    #                     source_entity.translation_key
+    #                 ]
+    #             ):
+    #                 entity_info.icon = icons[source_entity.platform][
+    #                     source_entity.domain
+    #                 ][source_entity.translation_key]["default"]
 
-        return entity_info
+    #     return entity_info

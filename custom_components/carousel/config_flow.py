@@ -17,6 +17,7 @@ from homeassistant.helpers.selector import (
     NumberSelector,
     NumberSelectorConfig,
     NumberSelectorMode,
+    TemplateSelector,
 )
 
 from .const import (
@@ -25,6 +26,7 @@ from .const import (
     CONF_PLATFORM_TYPE,
     CONF_RESTART_TIMER,
     CONF_ROTATE_EVERY_MINUTES,
+    CONF_SHOW_IF_TEMPLATE,
     DOMAIN,
     LOGGER,
 )
@@ -105,15 +107,42 @@ async def _create_form(
             selector.EntitySelectorConfig(domain=domain, multiple=True),
         ),
     }
+    CONFIG_SHOW_IF_TEMPLATE = {
+        vol.Optional(
+            CONF_SHOW_IF_TEMPLATE,
+            default=user_input.get(CONF_SHOW_IF_TEMPLATE, ""),
+        ): TemplateSelector(),
+    }
 
     match step:
         case "init":
-            return vol.Schema({**CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES})
+            match domain:
+                case Platform.BINARY_SENSOR | Platform.SENSOR:
+                    return vol.Schema(
+                        {
+                            **CONFIG_OPTIONS,
+                            **CONFIG_SHOW_IF_TEMPLATE,
+                            **CONFIG_OPTIONS_ENTITIES,
+                        }
+                    )
+                case _:
+                    return vol.Schema({**CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES})
 
         case "user" | _:
-            return vol.Schema(
-                {**CONFIG_NAME, **CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES}
-            )
+            match domain:
+                case Platform.BINARY_SENSOR | Platform.SENSOR:
+                    return vol.Schema(
+                        {
+                            **CONFIG_NAME,
+                            **CONFIG_OPTIONS,
+                            **CONFIG_SHOW_IF_TEMPLATE,
+                            **CONFIG_OPTIONS_ENTITIES,
+                        }
+                    )
+                case _:
+                    return vol.Schema(
+                        {**CONFIG_NAME, **CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES}
+                    )
 
 
 # ------------------------------------------------------------------

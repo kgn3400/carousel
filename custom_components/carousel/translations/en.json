@@ -31,10 +31,12 @@
                     "icon": "Icon",
                     "rotate_every_minutes": "Rotate sensors every minutes",
                     "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-                    "restart_timer": "Restart Timer helper automatic"
+                    "restart_timer": "Restart Timer helper automatic",
+                    "show_if_template": "Show if template"
                 },
                 "data_description": {
-                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used.",
+                    "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
             "binary_sensor": {
@@ -45,10 +47,12 @@
                     "icon": "Icon",
                     "rotate_every_minutes": "Rotate binary sensors every minutes",
                     "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-                    "restart_timer": "Restart Timer helper automatic"
+                    "restart_timer": "Restart Timer helper automatic",
+                    "show_if_template": "Show if template"
                 },
                 "data_description": {
-                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used.",
+                    "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
             "camera": {
@@ -84,10 +88,12 @@
                     "icon": "Icon",
                     "rotate_every_minutes": "Rotate binary sensors every minutes",
                     "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-                    "restart_timer": "Restart Timer helper automatic"
+                    "restart_timer": "Restart Timer helper automatic",
+                    "show_if_template": "Show if template"
                 },
                 "data_description": {
-                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used.",
+                    "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
             "init_sensor": {
@@ -97,10 +103,12 @@
                     "icon": "Icon",
                     "rotate_every_minutes": "Rotate sensors every minutes",
                     "listen_to_timer_trigger": "Use Timer helper as rotate trigger",
-                    "restart_timer": "Restart Timer helper automatic"
+                    "restart_timer": "Restart Timer helper automatic",
+                    "show_if_template": "Show if template"
                 },
                 "data_description": {
-                    "icon": "If icon is not filled out, the icon from the tracked entities is used."
+                    "icon": "If icon is not filled out, the icon from the tracked entities is used.",
+                    "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
             "init_camera": {

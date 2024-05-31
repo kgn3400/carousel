@@ -35,12 +35,14 @@ from homeassistant.helpers.event import (
     EventStateChangedData,
     async_track_state_change_event,
 )
+from homeassistant.helpers.template import Template
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import (
     CONF_LISTEN_TO_TIMER_TRIGGER,
     CONF_RESTART_TIMER,
     CONF_ROTATE_EVERY_MINUTES,
+    CONF_SHOW_IF_TEMPLATE,
     DOMAIN,
     DOMAIN_NAME,
     LOGGER,
@@ -77,6 +79,7 @@ class BaseEntityInfo:
         self.state: State = None
         self.show_x_times: int = show_x_times
         self.remove_at: datetime = None
+        self.is_visible: bool = True
 
         if remove_at_timedelta is not None:
             self.remove_at = datetime.now() + remove_at_timedelta
@@ -306,6 +309,60 @@ class BaseCarousel(Entity):
             del self.entities_list[self.current_entity_pos]
 
     # ------------------------------------------------------------------
+    async def async_refresh_common(self) -> None:
+        """Refresh common."""
+
+        # ------------------------------------------------------------------
+        async def async_refresh_entity():
+            await self.async_refresh_common_first_part()
+
+            self.current_entity = self.entities_list[
+                self.current_entity_pos
+            ] = await self.async_get_entity_info(self.current_entity)
+
+            self.device_class = self.current_entity.device_class
+
+        await async_refresh_entity()
+
+        tmp_res: str = ""
+
+        if len(self.entities_list) > 0 and self.entry.options.get(
+            CONF_SHOW_IF_TEMPLATE, ""
+        ):
+            while tmp_res != "True" and any(
+                item.is_visible for item in self.entities_list
+            ):
+                # self.async_write_ha_state()
+                tmp_state: State = self.hass.states.get(self.current_entity.entity_id)
+                template_values: dict = {
+                    "state": tmp_state.state,
+                    "state_attributes": tmp_state.attributes.copy(),
+                }
+
+                value_template: Template | None = Template(
+                    str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
+                )
+
+                tmp_res = str(
+                    value_template.async_render_with_possible_json_value(
+                        "", variables=template_values
+                    )
+                )
+
+                if tmp_res == "True":
+                    self.entities_list[self.current_entity_pos].is_visible = True
+
+                else:
+                    self.entities_list[self.current_entity_pos].is_visible = False
+                    await async_refresh_entity()
+
+            if not any(item.is_visible for item in self.entities_list):
+                self.current_entity = None
+                return
+
+        await self.async_refresh_common_last_part()
+
+    # ------------------------------------------------------------------
     async def async_refresh_common_first_part(self) -> None:
         """Refresh common first part."""
 
@@ -340,6 +397,7 @@ class BaseCarousel(Entity):
 
         if self.cancel_state_listener is not None:
             self.cancel_state_listener()
+            self.cancel_state_listener = None
 
     # ------------------------------------------------------------------
     async def async_refresh_common_last_part(self) -> None:

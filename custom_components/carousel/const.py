@@ -16,6 +16,7 @@ CONF_ROTATE_EVERY_MINUTES = "rotate_every_minutes"
 CONF_PLATFORM_TYPE = "platform_type"
 CONF_RESTART_TIMER = "restart_timer"
 CONF_LISTEN_TO_TIMER_TRIGGER = "listen_to_timer_trigger"
+CONF_SHOW_IF_TEMPLATE = "show_if_template"
 
 SERVICE_SHOW_ENTITY_ID = "show_entity_id"
 SERVICE_REMOVE_ENTITY_ID = "remove_entity_id"

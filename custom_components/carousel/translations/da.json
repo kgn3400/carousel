@@ -31,10 +31,12 @@
                     "icon": "Ikon",
                     "rotate_every_minutes": "Roter sensorer hvert minut",
                     "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
+                    "restart_timer": "Genstart Timer hjælper automatisk",
+                    "show_if_template": "Vis hvis skabelon"
                 },
                 "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede Entiteter."
+                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede Entiteter.",
+                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
             "binary_sensor": {
@@ -45,10 +47,12 @@
                     "icon": "Ikon",
                     "rotate_every_minutes": "Roter binære sensorer hvert minut",
                     "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
+                    "restart_timer": "Genstart Timer hjælper automatisk",
+                    "show_if_template": "Vis hvis skabelon"
                 },
                 "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
+                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
             "camera": {
@@ -84,10 +88,12 @@
                     "icon": "Ikon",
                     "rotate_every_minutes": "Roter binære sensorer hvert minut",
                     "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
+                    "restart_timer": "Genstart Timer hjælper automatisk",
+                    "show_if_template": "Vis hvis skabelon"
                 },
                 "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
+                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
             "init_sensor": {
@@ -97,10 +103,12 @@
                     "icon": "Ikon",
                     "rotate_every_minutes": "Roter sensorer hvert minut",
                     "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
+                    "restart_timer": "Genstart Timer hjælper automatisk",
+                    "show_if_template": "Vis hvis skabelon"
                 },
                 "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
+                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
             "init_camera": {
