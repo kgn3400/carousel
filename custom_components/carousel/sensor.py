@@ -210,10 +210,13 @@ class CarouselSensor(SensorEntity, BaseCarousel):
         if self.current_entity is not None and self.current_entity.state is not None:
             attr = self.current_entity.state.attributes.copy()
 
-        if any(item.is_visible for item in self.entities_list):
-            attr["any entities visible"] = True
-        else:
-            attr["any entities visible"] = False
+        tmp_count: int = 0
+
+        for item in self.entities_list:
+            if item.is_visible:
+                tmp_count += 1
+
+        attr["entities visible"] = tmp_count
 
         return attr
 

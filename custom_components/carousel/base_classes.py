@@ -21,6 +21,7 @@ from homeassistant.core import (
     State,
     callback,
 )
+from homeassistant.exceptions import TemplateError
 from homeassistant.helpers import (
     config_validation as cv,
     entity_platform,
@@ -52,6 +53,7 @@ from .const import (
     SERVICE_SHOW_FOR,
     SERVICE_SHOW_X_TIMES,
     TRANSLATION_KEY_MISSING_ENTITY,
+    TRANSLATION_KEY_TEMPLATE_ERROR,
     RefreshType,
 )
 from .timer_trigger import TimerTrigger
@@ -114,6 +116,9 @@ class BaseCarousel(Entity):
         self.refresh_type: RefreshType = RefreshType.NORMAL
 
         self.timer_trigger: TimerTrigger
+
+        self.last_error_template: str = ""
+        self.last_error_txt_template: str = ""
 
         self.coordinator: DataUpdateCoordinator = DataUpdateCoordinator(
             self.hass,
@@ -329,25 +334,28 @@ class BaseCarousel(Entity):
         if len(self.entities_list) > 0 and self.entry.options.get(
             CONF_SHOW_IF_TEMPLATE, ""
         ):
-            while tmp_res != "True" and any(
-                item.is_visible for item in self.entities_list
-            ):
-                # self.async_write_ha_state()
+            tmp_pos: int = 1
+
+            while tmp_res != "True" and tmp_pos <= len(self.entities_list):
                 tmp_state: State = self.hass.states.get(self.current_entity.entity_id)
                 template_values: dict = {
                     "state": tmp_state.state,
                     "state_attributes": tmp_state.attributes.copy(),
                 }
 
-                value_template: Template | None = Template(
-                    str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
-                )
-
-                tmp_res = str(
-                    value_template.async_render_with_possible_json_value(
-                        "", variables=template_values
+                try:
+                    value_template: Template | None = Template(
+                        str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
                     )
-                )
+
+                    tmp_res = str(value_template.async_render(template_values))
+
+                except (TypeError, TemplateError) as e:
+                    await self.async_create_issue_template(
+                        str(e), TRANSLATION_KEY_TEMPLATE_ERROR
+                    )
+                    tmp_res = ""
+                    break
 
                 if tmp_res == "True":
                     self.entities_list[self.current_entity_pos].is_visible = True
@@ -356,7 +364,9 @@ class BaseCarousel(Entity):
                     self.entities_list[self.current_entity_pos].is_visible = False
                     await async_refresh_entity()
 
-            if not any(item.is_visible for item in self.entities_list):
+                tmp_pos += 1
+
+            if tmp_res != "True":
                 self.current_entity = None
                 return
 
@@ -403,11 +413,12 @@ class BaseCarousel(Entity):
     async def async_refresh_common_last_part(self) -> None:
         """Refresh common last part."""
 
-        self.cancel_state_listener = async_track_state_change_event(
-            self.hass,
-            self.current_entity.entity_id,
-            self.sensor_state_listener,
-        )
+        if self.current_entity is not None:
+            self.cancel_state_listener = async_track_state_change_event(
+                self.hass,
+                self.current_entity.entity_id,
+                self.sensor_state_listener,
+            )
 
     # ------------------------------------------------------
     @callback
@@ -440,6 +451,36 @@ class BaseCarousel(Entity):
                 "carousel_helper": self.entity_id,
             },
         )
+
+    # ------------------------------------------------------------------
+    async def async_create_issue_template(
+        self, error_txt: str, translation_key: str
+    ) -> None:
+        """Create issue on entity."""
+
+        if (
+            self.last_error_template
+            != self.entry.options.get(CONF_SHOW_IF_TEMPLATE, "")
+            or error_txt != self.last_error_txt_template
+        ):
+            LOGGER.warning(error_txt)
+
+            ir.async_create_issue(
+                self.hass,
+                DOMAIN,
+                DOMAIN_NAME + datetime.now().isoformat(),
+                issue_domain=DOMAIN,
+                is_fixable=False,
+                severity=ir.IssueSeverity.WARNING,
+                translation_key=translation_key,
+                translation_placeholders={
+                    "error_txt": error_txt,
+                    "template": self.entry.options.get(CONF_SHOW_IF_TEMPLATE, ""),
+                    "carousel_helper": self.entity_id,
+                },
+            )
+            self.last_error_template = self.entry.options.get(CONF_SHOW_IF_TEMPLATE, "")
+            self.last_error_txt_template = error_txt
 
     # ------------------------------------------------------
     async def async_will_remove_from_hass(self) -> None:

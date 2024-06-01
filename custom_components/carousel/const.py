@@ -10,6 +10,7 @@ LOGGER: Logger = getLogger(__name__)
 TRANSLATION_KEY = DOMAIN
 TRANSLATION_KEY_MISSING_ENTITY = "missing_entity"
 TRANSLATION_KEY_MISSING__TIMER_ENTITY = "missing_timer_entity"
+TRANSLATION_KEY_TEMPLATE_ERROR = "template_error"
 
 CONF_ENTITY_IDS = "entity_ids"
 CONF_ROTATE_EVERY_MINUTES = "rotate_every_minutes"

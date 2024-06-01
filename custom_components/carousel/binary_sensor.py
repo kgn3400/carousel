@@ -82,16 +82,6 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
 
         await self.async_refresh_common()
 
-        # await self.async_refresh_common_first_part()
-
-        # self.current_entity = self.entities_list[
-        #     self.current_entity_pos
-        # ] = await self.async_get_entity_info(self.current_entity)
-
-        # self.device_class = self.current_entity.device_class
-
-        # await self.async_refresh_common_last_part()
-
     # ------------------------------------------------------
     @property
     def name(self) -> str:
@@ -155,6 +145,14 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
 
         if self.current_entity is not None and self.current_entity.state is not None:
             attr = self.current_entity.state.attributes.copy()
+
+        tmp_count: int = 0
+
+        for item in self.entities_list:
+            if item.is_visible:
+                tmp_count += 1
+
+        attr["entities visible"] = tmp_count
 
         return attr
 

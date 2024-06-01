@@ -134,6 +134,10 @@
         "missing_timer_entity": {
             "description": "It looks like either the Timer helper `{timer_entity}` has been deleted or renamed for use in Carousel helper `{entity}`. \n\n Please fix this problem.",
             "title": "Carousel helper: Timer helper deleted or renamed"
+        },
+        "template_error": {
+            "description": "Rendering show if template `{template}` ends in error.\nError: `{error_txt}` \n\n Please fix this problem.",
+            "title": "Carousel helper: Template error"
         }
     },
     "services": {

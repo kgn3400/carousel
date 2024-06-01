@@ -134,6 +134,10 @@
         "missing_timer_entity": {
             "description": "Det ser ud til, at Timer hjælpefunktionen `{timer_entity}` enten er blevet slettet eller omdøbt som brug i Karrusel hjælpefunktionen `{entity}`.\n\n Venligst ret dette problem.",
             "title": "Karrusel hjælper: Timer hjælper slettet eller omdøbt"
+        },
+        "template_error": {
+            "description": "Behandling af vis hvis skabelon `{template}` fejler.\nFejl: `{error_txt}` \n\n Venligst ret dette problem.",
+            "title": "Karrusel hjælper: Skabelon fejl"
         }
     },
     "services": {
