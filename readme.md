@@ -21,7 +21,7 @@ Configuration is setup via UI in Home assistant. To add one, go to [Settings > D
 <br/>
 <br/>
 
-It's possible to synchronize the rotation between multiple carousels by using the optional same Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
+It's possible to synchronize the rotation between multiple carousels by using the same optional Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
 
 ## Services
 
