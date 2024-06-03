@@ -136,7 +136,7 @@
             "title": "Karrusel hjælper: Timer hjælper slettet eller omdøbt"
         },
         "template_error": {
-            "description": "Behandling af vis hvis skabelon `{template}` fejler.\nFejl: `{error_txt}` \n\n Venligst ret dette problem.",
+            "description": "Behandling af vis hvis skabelon `{template}` i Karrusel hjælperen `{carousel_helper}` fejler.\nFejl: `{error_txt}` \n\n Venligst ret dette problem.",
             "title": "Karrusel hjælper: Skabelon fejl"
         }
     },

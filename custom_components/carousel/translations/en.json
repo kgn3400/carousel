@@ -136,7 +136,7 @@
             "title": "Carousel helper: Timer helper deleted or renamed"
         },
         "template_error": {
-            "description": "Rendering show if template `{template}` ends in error.\nError: `{error_txt}` \n\n Please fix this problem.",
+            "description": "Rendering show if template `{template}` in Carousel helper `{carousel_helper}` ends in error.\nError: `{error_txt}` \n\n Please fix this problem.",
             "title": "Carousel helper: Template error"
         }
     },

@@ -376,11 +376,15 @@ class BaseCarousel(Entity):
     async def async_refresh_common_first_part(self) -> None:
         """Refresh common first part."""
 
+        if self.cancel_state_listener is not None:
+            self.cancel_state_listener()
+            self.cancel_state_listener = None
+
+        await self.async_remove_expired_entities()
+
         if len(self.entities_list) == 0:
             self.current_entity = None
             return
-
-        await self.async_remove_expired_entities()
 
         if self.stay_at_current_pos:
             self.stay_at_current_pos = False
@@ -402,12 +406,8 @@ class BaseCarousel(Entity):
                 self.current_entity.entity_id, TRANSLATION_KEY_MISSING_ENTITY
             )
             self.entities_list.pop(self.current_entity_pos)
-            await self.async_refresh()
+            await self.async_refresh_common_first_part()
             return
-
-        if self.cancel_state_listener is not None:
-            self.cancel_state_listener()
-            self.cancel_state_listener = None
 
     # ------------------------------------------------------------------
     async def async_refresh_common_last_part(self) -> None:
@@ -434,7 +434,9 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_create_issue_entity(
-        self, entity_id: str, translation_key: str
+        self,
+        entity_id: str,
+        translation_key: str,
     ) -> None:
         """Create issue on entity."""
 
@@ -454,9 +456,11 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_create_issue_template(
-        self, error_txt: str, translation_key: str
+        self,
+        error_txt: str,
+        translation_key: str,
     ) -> None:
-        """Create issue on entity."""
+        """Create issue on template."""
 
         if (
             self.last_error_template
