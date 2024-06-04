@@ -1,7 +1,8 @@
-"""Base classes."""
+"""Base carousel class."""
 
 from __future__ import annotations
 
+from abc import abstractmethod
 from datetime import datetime, timedelta
 
 import voluptuous as vol
@@ -39,6 +40,7 @@ from homeassistant.helpers.event import (
 from homeassistant.helpers.template import Template
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
+from .base_entity_info import BaseEntityInfo
 from .const import (
     CONF_LISTEN_TO_TIMER_TRIGGER,
     CONF_RESTART_TIMER,
@@ -61,39 +63,8 @@ from .timer_trigger import TimerTrigger
 
 # ------------------------------------------------------
 # ------------------------------------------------------
-class BaseEntityInfo:
-    """Base entity info class."""
-
-    def __init__(
-        self,
-        entity_id: str,
-        friendly_name: str | None = None,
-        icon: str | None = None,
-        unit_of_measurement: str | None = None,
-        show_x_times: int | None = None,
-        remove_at_timedelta: timedelta | None = None,
-    ) -> None:
-        """Entity info base."""
-        self.entity_id: str = entity_id
-        self.friendly_name: str | None = friendly_name
-        self.icon: str | None = icon
-        self.unit_of_measurement: str | None = unit_of_measurement
-        self.state: State = None
-        self.show_x_times: int = show_x_times
-        self.remove_at: datetime = None
-        self.is_visible: bool = True
-
-        if remove_at_timedelta is not None:
-            self.remove_at = datetime.now() + remove_at_timedelta
-
-        self.entity_obj: Entity
-        self.device_class: str
-
-
-# ------------------------------------------------------
-# ------------------------------------------------------
-class BaseCarousel(Entity):
-    """Carousel base."""
+class BaseCarouselEntity(Entity):
+    """Base Carousel entity."""
 
     restart_timer: bool = True
 
@@ -103,7 +74,7 @@ class BaseCarousel(Entity):
         hass: HomeAssistant,
         entry: ConfigEntry,
     ) -> None:
-        """Carousel sensor."""
+        """Carousel entity base."""
         self.hass: HomeAssistant = hass
         self.entry: ConfigEntry = entry
 
@@ -129,6 +100,22 @@ class BaseCarousel(Entity):
         )
 
         self.platform: EntityPlatform = entity_platform.async_get_current_platform()
+        self.register_entity_services()
+
+        if self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""):
+            self.refresh_type = RefreshType.LISTEN_TO_TIMER_TRIGGER
+
+            self.timer_trigger = TimerTrigger(
+                self,
+                self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""),
+                self.async_handle_timer_finished,
+                self.entry.options.get(CONF_RESTART_TIMER, False),
+            )
+            self.coordinator.update_interval = None
+
+    # ------------------------------------------------------------------
+    def register_entity_services(self) -> None:
+        """Register entity services."""
 
         self.platform.async_register_entity_service(
             self.platform.domain + "_add",
@@ -164,17 +151,6 @@ class BaseCarousel(Entity):
             self.async_remove_entity_dispatcher,
         )
 
-        if self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""):
-            self.refresh_type = RefreshType.LISTEN_TO_TIMER_TRIGGER
-
-            self.timer_trigger = TimerTrigger(
-                self,
-                self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""),
-                self.async_handle_timer_finished,
-                self.entry.options.get(CONF_RESTART_TIMER, ""),
-            )
-            self.coordinator.update_interval = None
-
     # ------------------------------------------------------------------
     async def async_handle_timer_finished(self, error: bool) -> None:
         """Handle timer finished."""
@@ -184,13 +160,14 @@ class BaseCarousel(Entity):
             self.coordinator.update_interval = timedelta(
                 minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
             )
+            return
 
         if self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
             await self.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
     async def async_add_entity_dispatcher(
-        self, entity: BaseCarousel, service_data: ServiceCall
+        self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Add entity."""
 
@@ -206,7 +183,7 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_show_entity_dispatcher(
-        self, entity: BaseCarousel, service_data: ServiceCall
+        self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Show entity."""
 
@@ -227,7 +204,7 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_show_next_dispatcher(
-        self, entity: BaseCarousel, service_data: ServiceCall
+        self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Show next."""
 
@@ -241,7 +218,7 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_show_prev_dispatcher(
-        self, entity: BaseCarousel, service_data: ServiceCall
+        self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Show prev."""
 
@@ -264,7 +241,7 @@ class BaseCarousel(Entity):
 
     # ------------------------------------------------------------------
     async def async_remove_entity_dispatcher(
-        self, entity: BaseCarousel, service_data: ServiceCall
+        self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Remove entity."""
 
@@ -312,6 +289,12 @@ class BaseCarousel(Entity):
             and self.current_entity.remove_at < datetime.now()
         ):
             del self.entities_list[self.current_entity_pos]
+
+    # ------------------------------------------------------------------
+    @abstractmethod
+    async def async_refresh(self) -> None:
+        """Refresh - Abstract method."""
+        return
 
     # ------------------------------------------------------------------
     async def async_refresh_common(self) -> None:
@@ -567,8 +550,6 @@ class BaseCarousel(Entity):
                 self.hass,
                 "entity",
                 integrations=[source_entity.platform],
-                # "entity_component",
-                # integrations=["sensor"],
             )
 
             if (
@@ -610,3 +591,64 @@ class BaseCarousel(Entity):
             entity_info.icon = await self.async_get_icon(entity_info.entity_id)
 
         return entity_info
+
+    # ------------------------------------------------------
+    @property
+    def name(self) -> str:
+        """Name.
+
+        Returns:
+            str: Name
+
+        """
+
+        if self.current_entity is not None:
+            return self.current_entity.friendly_name
+
+        return self.entry.title
+
+    # ------------------------------------------------------
+    @property
+    def unique_id(self) -> str:
+        """Unique id.
+
+        Returns:
+            str: Unique  id
+
+        """
+        return self.entry.entry_id
+
+    # ------------------------------------------------------
+    @property
+    def icon(self) -> str:
+        """Icon.
+
+        Returns:
+            str: Icon
+
+        """
+        if self.current_entity is not None:
+            return self.current_entity.icon
+
+        return None
+
+    # ------------------------------------------------------
+    @property
+    def extra_state_attributes(self) -> dict:
+        """Extra state attributes.
+
+        Returns:
+            dict: Extra state attributes
+
+        """
+
+        attr: dict = {}
+
+        if self.current_entity is not None and self.current_entity.state is not None:
+            attr = self.current_entity.state.attributes.copy()
+
+        attr["carousel entities visible"] = len(
+            [p for p in self.entities_list if p.is_visible]
+        )
+
+        return attr

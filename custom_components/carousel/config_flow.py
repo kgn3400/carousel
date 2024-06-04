@@ -28,7 +28,6 @@ from .const import (
     CONF_ROTATE_EVERY_MINUTES,
     CONF_SHOW_IF_TEMPLATE,
     DOMAIN,
-    LOGGER,
 )
 
 #  from homeassistant import config_entries
@@ -157,10 +156,17 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
-        """Handle the initial step."""
+        """Handle the initial menu step."""
+
+        if self.hass.config.debug:
+            return self.async_show_menu(
+                step_id="user",
+                menu_options=[Platform.BINARY_SENSOR, Platform.CAMERA, Platform.SENSOR],
+            )
+
         return self.async_show_menu(
             step_id="user",
-            menu_options=[Platform.BINARY_SENSOR, Platform.CAMERA, Platform.SENSOR],
+            menu_options=[Platform.BINARY_SENSOR, Platform.SENSOR],
         )
 
     # ------------------------------------------------------------------
@@ -173,19 +179,14 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            try:
-                if await _validate_input(self.hass, user_input, errors):
-                    user_input[CONF_PLATFORM_TYPE] = domain
+            if await _validate_input(self.hass, user_input, errors):
+                user_input[CONF_PLATFORM_TYPE] = domain
 
-                    return self.async_create_entry(
-                        title=user_input[CONF_NAME],
-                        data=user_input,
-                        options=user_input,
-                    )
-
-            except Exception:  # pylint: disable=broad-except
-                LOGGER.exception("Unexpected exception")
-                errors["base"] = "unknown"
+                return self.async_create_entry(
+                    title=user_input[CONF_NAME],
+                    data=user_input,
+                    options=user_input,
+                )
 
         return self.async_show_form(
             step_id=domain,
@@ -253,16 +254,12 @@ class OptionsFlowHandler(OptionsFlow):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            try:
-                if await _validate_input_init(self, user_input, errors):
-                    tmp_input = self._options | user_input
+            if await _validate_input_init(self, user_input, errors):
+                tmp_input = self._options | user_input
 
-                    return self.async_create_entry(
-                        data=tmp_input,
-                    )
-            except Exception:
-                LOGGER.exception("Unexpected exception")
-                errors["base"] = "unknown"
+                return self.async_create_entry(
+                    data=tmp_input,
+                )
         else:
             user_input = self._options.copy()
 

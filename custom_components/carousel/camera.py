@@ -11,7 +11,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .base_classes import BaseCarousel, BaseEntityInfo
+from .base_carousel_entity import BaseCarouselEntity
+from .base_entity_info import BaseEntityInfo
 from .const import CONF_ENTITY_IDS, TRANSLATION_KEY
 
 
@@ -57,7 +58,7 @@ async def async_setup_entry(
 
 # ------------------------------------------------------------------
 # ------------------------------------------------------------------
-class CarouselCamera(Camera, BaseCarousel):
+class CarouselCamera(Camera, BaseCarouselEntity):
     """Camera carousel."""
 
     def __init__(
@@ -68,7 +69,7 @@ class CarouselCamera(Camera, BaseCarousel):
     ) -> None:
         """Initialize the camera."""
         Camera.__init__(self)
-        BaseCarousel.__init__(self, hass, entry)
+        BaseCarouselEntity.__init__(self, hass, entry)
 
         self.entities_list: list[CameraEntityInfo] = [
             CameraEntityInfo(entity) for entity in entities
@@ -155,49 +156,6 @@ class CarouselCamera(Camera, BaseCarousel):
             return self.current_entity.entity_obj.model
 
         return None
-
-    # ------------------------------------------------------
-    @property
-    def name(self) -> str:
-        """Name.
-
-        Returns:
-            str: Name
-
-        """
-
-        if self.current_entity is not None:
-            return self.current_entity.friendly_name
-
-        return self.entry.title
-
-    # ------------------------------------------------------
-    @property
-    def unique_id(self) -> str:
-        """Unique id.
-
-        Returns:
-            str: Unique  id
-
-        """
-        return self.entry.entry_id
-
-    # ------------------------------------------------------
-    @property
-    def extra_state_attributes(self) -> dict:
-        """Extra state attributes.
-
-        Returns:
-            dict: Extra state attributes
-
-        """
-
-        attr: dict = {}
-
-        if self.current_entity is not None and self.current_entity.state is not None:
-            attr = self.current_entity.state.attributes.copy()
-
-        return attr
 
     # ------------------------------------------------------
     @property

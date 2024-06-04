@@ -8,8 +8,6 @@ from homeassistant.core import HomeAssistant
 
 from .const import CONF_PLATFORM_TYPE, DOMAIN
 
-# PLATFORMS: list[Platform] = [Platform.SENSOR]
-
 
 # ------------------------------------------------------------------
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

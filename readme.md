@@ -23,6 +23,9 @@ Configuration is setup via UI in Home assistant. To add one, go to [Settings > D
 
 It's possible to synchronize the rotation between multiple carousels by using the same optional Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
 
+The optional 'show if template' config settings is used to decide if the entity should be shown. The rendering result should be True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
+If there is no entities to show, then the Carousel entity state will be set to unknown. And the state can be used in the conditional card to decide if the card should be shown.
+
 ## Services
 
 Available services: __add__, __remove__, __show_entity__, __show_next__ and __show_prev__

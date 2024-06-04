@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from custom_components.carousel.base_classes import BaseCarousel, BaseEntityInfo
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
@@ -12,6 +11,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .base_carousel_entity import BaseCarouselEntity
+from .base_entity_info import BaseEntityInfo
 from .const import CONF_ENTITY_IDS, TRANSLATION_KEY
 
 
@@ -57,7 +58,7 @@ class BinarySensorEntityInfo(BaseEntityInfo):
 
 # ------------------------------------------------------
 # ------------------------------------------------------
-class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
+class CarouselBinarySensor(BinarySensorEntity, BaseCarouselEntity):
     """Binary sensor class for carousel."""
 
     # ------------------------------------------------------
@@ -84,35 +85,6 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
 
     # ------------------------------------------------------
     @property
-    def name(self) -> str:
-        """Name.
-
-        Returns:
-            str: Name
-
-        """
-
-        if self.current_entity is not None:
-            return self.current_entity.friendly_name
-
-        return self.entry.title
-
-    # ------------------------------------------------------
-    @property
-    def icon(self) -> str:
-        """Icon.
-
-        Returns:
-            str: Icon
-
-        """
-        if self.current_entity is not None:
-            return self.current_entity.icon
-
-        return None
-
-    # ------------------------------------------------------
-    @property
     def is_on(self) -> bool:
         """Get the state."""
 
@@ -133,42 +105,6 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
 
     # ------------------------------------------------------
     @property
-    def extra_state_attributes(self) -> dict:
-        """Extra state attributes.
-
-        Returns:
-            dict: Extra state attributes
-
-        """
-
-        attr: dict = {}
-
-        if self.current_entity is not None and self.current_entity.state is not None:
-            attr = self.current_entity.state.attributes.copy()
-
-        tmp_count: int = 0
-
-        for item in self.entities_list:
-            if item.is_visible:
-                tmp_count += 1
-
-        attr["entities visible"] = tmp_count
-
-        return attr
-
-    # ------------------------------------------------------
-    @property
-    def unique_id(self) -> str:
-        """Unique id.
-
-        Returns:
-            str: Unique  id
-
-        """
-        return self.entry.entry_id
-
-    # ------------------------------------------------------
-    @property
     def should_poll(self) -> bool:
         """No need to poll. Coordinator notifies entity of updates."""
         return False
@@ -177,6 +113,7 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarousel):
     @property
     def available(self) -> bool:
         """Return if entity is available."""
+
         return self.coordinator.last_update_success
 
     # ------------------------------------------------------
