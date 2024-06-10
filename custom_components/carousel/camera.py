@@ -83,7 +83,7 @@ class CarouselCamera(Camera, BaseCarouselEntity):
     async def async_refresh(self) -> None:
         """Refresh."""
 
-        await self.async_refresh_common_first_part()
+        await self.async_refresh_common()
 
         self.current_entity = self.entities_list[
             self.current_entity_pos
@@ -94,8 +94,6 @@ class CarouselCamera(Camera, BaseCarouselEntity):
                 self.current_entity.entity_obj._attr_supported_features
             )
             self._attr_should_poll = self.current_entity.entity_obj._attr_should_poll
-
-        await self.async_refresh_common_last_part()
 
         if self.async_write_ha_state is not None:
             self.async_write_ha_state()

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from abc import abstractmethod
 from datetime import datetime, timedelta
 
 import voluptuous as vol
@@ -152,20 +151,6 @@ class BaseCarouselEntity(Entity):
         )
 
     # ------------------------------------------------------------------
-    async def async_handle_timer_finished(self, error: bool) -> None:
-        """Handle timer finished."""
-
-        if error:
-            self.refresh_type = RefreshType.NORMAL
-            self.coordinator.update_interval = timedelta(
-                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-            )
-            return
-
-        if self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
-            await self.coordinator.async_refresh()
-
-    # ------------------------------------------------------------------
     async def async_add_entity_dispatcher(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
@@ -228,14 +213,8 @@ class BaseCarouselEntity(Entity):
     async def async_show_prev(self, service_data: ServiceCall) -> None:
         """Show prev."""
 
-        if len(self.entities_list) == 0:
-            self.current_entity = None
+        if not self.prev_entity_pos():
             return
-
-        if self.current_entity_pos <= 1:
-            self.current_entity_pos = len(self.entities_list) - 1
-        else:
-            self.current_entity_pos -= 2
 
         await self.coordinator.async_refresh()
 
@@ -245,7 +224,7 @@ class BaseCarouselEntity(Entity):
     ) -> None:
         """Remove entity."""
 
-        await entity.async_show_prev(service_data)
+        await entity.async_remove_entity(service_data)
 
     # ------------------------------------------------------------------
     async def async_remove_entity(self, service_data: ServiceCall) -> None:
@@ -261,6 +240,20 @@ class BaseCarouselEntity(Entity):
             await self.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
+    async def async_handle_timer_finished(self, error: bool) -> None:
+        """Handle timer finished."""
+
+        if error:
+            self.refresh_type = RefreshType.NORMAL
+            self.coordinator.update_interval = timedelta(
+                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
+            )
+            return
+
+        if self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
+            await self.coordinator.async_refresh()
+
+    # ------------------------------------------------------------------
     def find_entity_pos(self, entity_id: str) -> int:
         """Find entity pos."""
         for index, entity in enumerate(self.entities_list):
@@ -270,7 +263,7 @@ class BaseCarouselEntity(Entity):
         return -1
 
     # ------------------------------------------------------------------
-    async def async_remove_expired_entities(self) -> None:
+    def remove_expired_entities(self) -> None:
         """Remove expired entites."""
 
         if (
@@ -291,83 +284,12 @@ class BaseCarouselEntity(Entity):
             del self.entities_list[self.current_entity_pos]
 
     # ------------------------------------------------------------------
-    @abstractmethod
-    async def async_refresh(self) -> None:
-        """Refresh - Abstract method."""
-        return
-
-    # ------------------------------------------------------------------
-    async def async_refresh_common(self) -> None:
-        """Refresh common."""
-
-        # ------------------------------------------------------------------
-        async def async_refresh_entity():
-            await self.async_refresh_common_first_part()
-
-            self.current_entity = self.entities_list[
-                self.current_entity_pos
-            ] = await self.async_get_entity_info(self.current_entity)
-
-            self.device_class = self.current_entity.device_class
-
-        await async_refresh_entity()
-
-        tmp_res: str = ""
-
-        if len(self.entities_list) > 0 and self.entry.options.get(
-            CONF_SHOW_IF_TEMPLATE, ""
-        ):
-            tmp_pos: int = 1
-
-            while tmp_res != "True" and tmp_pos <= len(self.entities_list):
-                tmp_state: State = self.hass.states.get(self.current_entity.entity_id)
-                template_values: dict = {
-                    "state": tmp_state.state,
-                    "state_attributes": tmp_state.attributes.copy(),
-                }
-
-                try:
-                    value_template: Template | None = Template(
-                        str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
-                    )
-
-                    tmp_res = str(value_template.async_render(template_values))
-
-                except (TypeError, TemplateError) as e:
-                    await self.async_create_issue_template(
-                        str(e), TRANSLATION_KEY_TEMPLATE_ERROR
-                    )
-                    tmp_res = ""
-                    break
-
-                if tmp_res == "True":
-                    self.entities_list[self.current_entity_pos].is_visible = True
-
-                else:
-                    self.entities_list[self.current_entity_pos].is_visible = False
-                    await async_refresh_entity()
-
-                tmp_pos += 1
-
-            if tmp_res != "True":
-                self.current_entity = None
-                return
-
-        await self.async_refresh_common_last_part()
-
-    # ------------------------------------------------------------------
-    async def async_refresh_common_first_part(self) -> None:
-        """Refresh common first part."""
-
-        if self.cancel_state_listener is not None:
-            self.cancel_state_listener()
-            self.cancel_state_listener = None
-
-        await self.async_remove_expired_entities()
+    def next_entity_pos(self) -> bool:
+        """Next entity."""
 
         if len(self.entities_list) == 0:
             self.current_entity = None
-            return
+            return False
 
         if self.stay_at_current_pos:
             self.stay_at_current_pos = False
@@ -377,6 +299,34 @@ class BaseCarouselEntity(Entity):
         if (self.current_entity_pos + 1) > len(self.entities_list):
             self.current_entity_pos = 0
 
+        return True
+
+    # ------------------------------------------------------------------
+    def prev_entity_pos(self) -> bool:
+        """Prev entity."""
+
+        if len(self.entities_list) == 0:
+            self.current_entity = None
+            return False
+
+        if self.current_entity_pos <= 1:
+            self.current_entity_pos = len(self.entities_list) - 1
+        else:
+            self.current_entity_pos -= 2
+
+        return True
+
+    # ------------------------------------------------------------------
+    async def async_get_next_entity(self) -> None:
+        """Get next entity."""
+
+        if self.cancel_state_listener is not None:
+            self.cancel_state_listener()
+            self.cancel_state_listener = None
+
+        if not self.next_entity_pos():
+            return
+
         self.current_entity = self.entities_list[self.current_entity_pos]
         self.current_entity.state = self.hass.states.get(self.current_entity.entity_id)
 
@@ -385,16 +335,91 @@ class BaseCarouselEntity(Entity):
                 self.current_entity.entity_id, None
             )
         else:
-            await self.async_create_issue_entity(
-                self.current_entity.entity_id, TRANSLATION_KEY_MISSING_ENTITY
+            self.create_issue(
+                TRANSLATION_KEY_MISSING_ENTITY,
+                {
+                    "entity": self.current_entity.entity_id,
+                    "carousel_helper": self.entity_id,
+                },
             )
             self.entities_list.pop(self.current_entity_pos)
             await self.async_refresh_common_first_part()
             return
 
     # ------------------------------------------------------------------
-    async def async_refresh_common_last_part(self) -> None:
-        """Refresh common last part."""
+    async def async_find_entity_template_ok(self) -> bool:
+        """Find entity template ok."""
+
+        tmp_pos: int = 1
+        tmp_res: str = ""
+        str_true: str = str(True)
+        # xx: str = datetime.now().strftime("%c")
+        # tt: str = await self.hass.async_add_executor_job(
+        #     format_datetime,
+        #     datetime.now(),
+        #     "medium",
+        #     None,
+        #     self.hass.config.language,
+        # )
+
+        while tmp_res != str_true and tmp_pos <= len(self.entities_list):
+            try:
+                tmp_state: State = self.hass.states.get(self.current_entity.entity_id)
+
+                if tmp_state is not None:
+                    template_values: dict = {
+                        "state": tmp_state.state,
+                        "state_attributes": tmp_state.attributes.copy(),
+                    }
+                    value_template: Template | None = Template(
+                        str(self.entry.options.get(CONF_SHOW_IF_TEMPLATE)), self.hass
+                    )
+
+                    tmp_res = str(value_template.async_render(template_values))
+
+            except (TypeError, TemplateError) as e:
+                self.create_issue_template(str(e))
+                return False
+
+            if tmp_res == str_true:
+                self.entities_list[self.current_entity_pos].is_visible = True
+
+            else:
+                self.entities_list[self.current_entity_pos].is_visible = False
+                await self.async_get_next_entity()
+
+            tmp_pos += 1
+
+        if tmp_res != str_true:
+            self.current_entity = None
+            return False
+
+        return True
+
+    # ------------------------------------------------------------------
+    async def async_refresh(self) -> None:
+        """Refresh."""
+        await self.async_refresh_common()
+
+    # ------------------------------------------------------------------
+    async def async_refresh_common(self) -> None:
+        """Refresh common."""
+
+        self.remove_expired_entities()
+
+        await self.async_get_next_entity()
+
+        if len(self.entities_list) > 0 and self.entry.options.get(
+            CONF_SHOW_IF_TEMPLATE, ""
+        ):
+            if not await self.async_find_entity_template_ok():
+                return
+
+        self.current_entity = self.entities_list[
+            self.current_entity_pos
+        ] = await self.async_get_entity_info(self.current_entity)
+
+        self.device_class = self.current_entity.device_class
 
         if self.current_entity is not None:
             self.cancel_state_listener = async_track_state_change_event(
@@ -416,12 +441,12 @@ class BaseCarouselEntity(Entity):
             await self.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
-    async def async_create_issue_entity(
+    def create_issue(
         self,
-        entity_id: str,
         translation_key: str,
+        translation_placeholders: dict,
     ) -> None:
-        """Create issue on entity."""
+        """Create issue on."""
 
         ir.async_create_issue(
             self.hass,
@@ -431,17 +456,13 @@ class BaseCarouselEntity(Entity):
             is_fixable=False,
             severity=ir.IssueSeverity.WARNING,
             translation_key=translation_key,
-            translation_placeholders={
-                "entity": entity_id,
-                "carousel_helper": self.entity_id,
-            },
+            translation_placeholders=translation_placeholders,
         )
 
     # ------------------------------------------------------------------
-    async def async_create_issue_template(
+    def create_issue_template(
         self,
         error_txt: str,
-        translation_key: str,
     ) -> None:
         """Create issue on template."""
 
@@ -450,22 +471,15 @@ class BaseCarouselEntity(Entity):
             != self.entry.options.get(CONF_SHOW_IF_TEMPLATE, "")
             or error_txt != self.last_error_txt_template
         ):
-            LOGGER.warning(error_txt)
-
-            ir.async_create_issue(
-                self.hass,
-                DOMAIN,
-                DOMAIN_NAME + datetime.now().isoformat(),
-                issue_domain=DOMAIN,
-                is_fixable=False,
-                severity=ir.IssueSeverity.WARNING,
-                translation_key=translation_key,
-                translation_placeholders={
+            self.create_issue(
+                TRANSLATION_KEY_TEMPLATE_ERROR,
+                {
                     "error_txt": error_txt,
                     "template": self.entry.options.get(CONF_SHOW_IF_TEMPLATE, ""),
                     "carousel_helper": self.entity_id,
                 },
             )
+
             self.last_error_template = self.entry.options.get(CONF_SHOW_IF_TEMPLATE, "")
             self.last_error_txt_template = error_txt
 
@@ -500,9 +514,13 @@ class BaseCarouselEntity(Entity):
             state: State | None = self.hass.states.get(entity_info.entity_id)
 
             if state is None:
-                await self.async_create_issue_entity(
+                self.create_issue(
                     entity_info.entity_id,
                     TRANSLATION_KEY_MISSING_ENTITY,
+                    {
+                        "entity": entity_info.entity_id,
+                        "carousel_helper": self.entity_id,
+                    },
                 )
                 del self.entities_list[index]
                 res = False

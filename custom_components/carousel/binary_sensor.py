@@ -77,12 +77,6 @@ class CarouselBinarySensor(BinarySensorEntity, BaseCarouselEntity):
 
         self.translation_key = TRANSLATION_KEY
 
-    # ------------------------------------------------------------------
-    async def async_refresh(self) -> None:
-        """Refresh."""
-
-        await self.async_refresh_common()
-
     # ------------------------------------------------------
     @property
     def is_on(self) -> bool:
