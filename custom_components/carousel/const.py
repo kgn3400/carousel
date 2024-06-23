@@ -25,6 +25,8 @@ SERVICE_ADD_ENTITY_ID = "add_entity_id"
 SERVICE_SHOW_X_TIMES = "show_x_times"
 SERVICE_SHOW_FOR = "show_for"
 
+EVENT_STARTING_OVER = "starting_over"
+
 
 class RefreshType(Enum):
     """Refresh type."""

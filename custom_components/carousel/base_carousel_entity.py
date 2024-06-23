@@ -30,6 +30,7 @@ from homeassistant.helpers import (
     issue_registry as ir,
     start,
 )
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity import Entity, get_device_class
 from homeassistant.helpers.entity_platform import EntityPlatform
 from homeassistant.helpers.event import (
@@ -47,6 +48,7 @@ from .const import (
     CONF_SHOW_IF_TEMPLATE,
     DOMAIN,
     DOMAIN_NAME,
+    EVENT_STARTING_OVER,
     LOGGER,
     SERVICE_ADD_ENTITY_ID,
     SERVICE_REMOVE_ENTITY_ID,
@@ -83,6 +85,7 @@ class BaseCarouselEntity(Entity):
         self.current_entity: BaseEntityInfo = None
         self.current_entity_pos = -1
         self.stay_at_current_pos: bool = False
+        self.first_entity: bool = False
         self.refresh_type: RefreshType = RefreshType.NORMAL
 
         self.timer_trigger: TimerTrigger
@@ -111,6 +114,14 @@ class BaseCarouselEntity(Entity):
                 self.entry.options.get(CONF_RESTART_TIMER, False),
             )
             self.coordinator.update_interval = None
+
+        self.device_info = DeviceInfo(
+            entry_type=DeviceEntryType.SERVICE,
+            identifiers={(DOMAIN, self.entry.title)},
+            suggested_area=None,
+            sw_version="1.0.9",
+            name=self.entry.title,
+        )
 
     # ------------------------------------------------------------------
     def register_entity_services(self) -> None:
@@ -264,7 +275,7 @@ class BaseCarouselEntity(Entity):
 
     # ------------------------------------------------------------------
     def remove_expired_entities(self) -> None:
-        """Remove expired entites."""
+        """Remove expired entities."""
 
         if (
             self.current_entity is not None
@@ -298,6 +309,7 @@ class BaseCarouselEntity(Entity):
 
         if (self.current_entity_pos + 1) > len(self.entities_list):
             self.current_entity_pos = 0
+            self.first_entity = True
 
         return True
 
@@ -353,14 +365,6 @@ class BaseCarouselEntity(Entity):
         tmp_pos: int = 1
         tmp_res: str = ""
         str_true: str = str(True)
-        # xx: str = datetime.now().strftime("%c")
-        # tt: str = await self.hass.async_add_executor_job(
-        #     format_datetime,
-        #     datetime.now(),
-        #     "medium",
-        #     None,
-        #     self.hass.config.language,
-        # )
 
         while tmp_res != str_true and tmp_pos <= len(self.entities_list):
             try:
@@ -414,6 +418,13 @@ class BaseCarouselEntity(Entity):
         ):
             if not await self.async_find_entity_template_ok():
                 return
+
+        if self.first_entity:
+            self.hass.bus.async_fire(
+                DOMAIN + "." + EVENT_STARTING_OVER, {ATTR_ENTITY_ID: self.entity_id}
+            )
+
+        self.first_entity = False
 
         self.current_entity = self.entities_list[
             self.current_entity_pos
@@ -506,6 +517,26 @@ class BaseCarouselEntity(Entity):
         self.async_on_remove(start.async_at_started(self.hass, self.async_hass_started))
 
     # ------------------------------------------------------
+    async def async_hass_started(self, _event: Event) -> None:
+        """Hass started."""
+
+        await self.async_verify_entities_exist()
+
+        if self.refresh_type == RefreshType.NORMAL:
+            self.coordinator.update_interval = timedelta(
+                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
+            )
+        elif self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
+            if not await self.timer_trigger.async_validate_timer():
+                self.coordinator.update_interval = timedelta(
+                    minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
+                )
+                self.refresh_type = RefreshType.NORMAL
+
+        self.async_schedule_update_ha_state()
+        await self.coordinator.async_refresh()
+
+    # ------------------------------------------------------
     async def async_verify_entities_exist(self) -> bool:
         """Verify entities exist."""
         res: bool = True
@@ -526,26 +557,6 @@ class BaseCarouselEntity(Entity):
                 res = False
 
         return res
-
-    # ------------------------------------------------------
-    async def async_hass_started(self, _event: Event) -> None:
-        """Hass started."""
-
-        await self.async_verify_entities_exist()
-
-        if self.refresh_type == RefreshType.NORMAL:
-            self.coordinator.update_interval = timedelta(
-                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-            )
-        elif self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
-            if not await self.timer_trigger.async_validate_timer():
-                self.coordinator.update_interval = timedelta(
-                    minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-                )
-                self.refresh_type = RefreshType.NORMAL
-
-        self.async_schedule_update_ha_state()
-        await self.coordinator.async_refresh()
 
     # ------------------------------------------------------
     async def async_get_icon(self, entity_id: str) -> str:

@@ -126,6 +126,11 @@
             }
         }
     },
+    "device_automation": {
+        "trigger_type": {
+            "starting_over": "Carousel starting over"
+        }
+    },
     "issues": {
         "missing_entity": {
             "description": "It looks like either entity `{entity}` has been deleted or renamed, which are used in Carousel helper `{carousel_helper}`. \n\n Please fix this problem.",

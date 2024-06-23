@@ -38,17 +38,13 @@ async def _validate_input(
     hass: HomeAssistant, user_input: dict[str, Any], errors: dict[str, str]
 ) -> bool:
     """Validate the user input allows us to connect."""
+    if CONF_ENTITY_IDS not in user_input:
+        errors[CONF_ENTITY_IDS] = "missing_selection"
+        return False
 
-    return True
-
-
-# ------------------------------------------------------------------
-async def _validate_input_init(
-    options_flow_handler: OptionsFlowHandler,
-    user_input: dict[str, Any],
-    errors: dict[str, str],
-) -> bool:
-    """Validate the user input allows us to connect."""
+    if len(user_input[CONF_ENTITY_IDS]) == 0:
+        errors[CONF_ENTITY_IDS] = "missing_selection"
+        return False
 
     return True
 
@@ -66,7 +62,10 @@ async def _create_form(
         user_input = {}
 
     CONFIG_NAME = {
-        vol.Required(CONF_NAME): selector.TextSelector(),
+        vol.Required(
+            CONF_NAME,
+            default=user_input.get(CONF_NAME, ""),
+        ): selector.TextSelector(),
     }
 
     CONFIG_OPTIONS = {
@@ -254,7 +253,7 @@ class OptionsFlowHandler(OptionsFlow):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            if await _validate_input_init(self, user_input, errors):
+            if await _validate_input(self, user_input, errors):
                 tmp_input = self._options | user_input
 
                 return self.async_create_entry(
@@ -321,36 +320,3 @@ class OptionsFlowHandler(OptionsFlow):
         """Handle the initial sensor step."""
 
         return await self.async_step_init_x(user_input, Platform.SENSOR)
-
-    # ------------------------------------------------------------------
-    # async def async_step_init(
-    #     self, user_input: dict[str, Any] | None = None
-    # ) -> FlowResult:
-    #     """Handle the initial step."""
-    #     errors: dict[str, str] = {}
-
-    #     if user_input is not None:
-    #         try:
-    #             if await _validate_input_init(self, user_input, errors):
-    #                 tmp_input = self._options | user_input
-
-    #                 return self.async_create_entry(
-    #                     data=tmp_input,
-    #                 )
-    #         except Exception:  # pylint: disable=broad-except
-    #             LOGGER.exception("Unexpected exception")
-    #             errors["base"] = "unknown"
-    #     else:
-    #         user_input = self._options.copy()
-
-    #     return self.async_show_form(
-    #         step_id="init",
-    #         data_schema=await _create_form(
-    #             self.hass,
-    #             user_input,
-    #             "init",
-    #             user_input[CONF_PLATFORM_TYPE],
-    #         ),
-    #         errors=errors,
-    #         last_step=True,
-    #     )
