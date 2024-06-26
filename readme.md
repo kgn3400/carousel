@@ -45,3 +45,9 @@ Show next entity in Carousel helper.
 ### Service carousel.binary_sensor_show_prev/carousel.sensor_show_prev
 
 Show previous ext entity in Carousel helper.
+
+## Automation triggers
+
+### Carousel starting over
+
+Trigger fired when the carousel starting over with the first entity in the set.
