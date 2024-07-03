@@ -10,7 +10,7 @@
             "already_configured": "Device is already configured"
         },
         "error": {
-            "missing_selection": "Nothing selected",
+            "missing_selection": "No entities selected",
             "unknown": "Unexpected error"
         },
         "step": {
@@ -76,12 +76,12 @@
             "already_configured": "Device is already configured"
         },
         "error": {
-            "missing_selection": "Nothing selected",
+            "missing_selection": "No entities selected",
             "same_master": "Master interval trigger is the same as current entity",
             "unknown": "Unexpected error"
         },
         "step": {
-            "init_binary_sensor": {
+            "binary_sensor": {
                 "data": {
                     "name": "Binary sensor name",
                     "entity_ids": "Entities this binary sensor tracks",
@@ -96,7 +96,7 @@
                     "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
-            "init_sensor": {
+            "sensor": {
                 "data": {
                     "name": "Sensor name",
                     "entity_ids": "Entities this sensor tracks",
@@ -111,7 +111,7 @@
                     "show_if_template": "If the entities has the same state/attribute type, a template can be used to decide if current entity should be shown. Values = state and dict state_attributes."
                 }
             },
-            "init_camera": {
+            "camera": {
                 "data": {
                     "name": "Camera name",
                     "entity_ids": "Entities this camera tracks",

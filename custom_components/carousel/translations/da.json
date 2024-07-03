@@ -10,7 +10,7 @@
             "already_configured": "Enheden er allerede konfigureret"
         },
         "error": {
-            "missing_selection": "Intet valgt",
+            "missing_selection": "Ingen entiteter valgt",
             "unknown": "Uventet fejl"
         },
         "step": {
@@ -76,12 +76,12 @@
             "already_configured": "Enheden er allerede konfigureret"
         },
         "error": {
-            "missing_selection": "Intet valgt",
+            "missing_selection": "Ingen entiteter valgt",
             "same_master": "Master interval udløser er det samme som nuværende enhed",
             "unknown": "Uventet fejl"
         },
         "step": {
-            "init_binary_sensor": {
+            "binary_sensor": {
                 "data": {
                     "name": "Binær sensor navn",
                     "entity_ids": "Entiteter som denne binære sensor sporer",
@@ -96,7 +96,7 @@
                     "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
-            "init_sensor": {
+            "sensor": {
                 "data": {
                     "name": "Sensor navn",
                     "entity_ids": "Entiteter denne sensor sporer",
@@ -111,7 +111,7 @@
                     "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
                 }
             },
-            "init_camera": {
+            "camera": {
                 "data": {
                     "name": "Kamera navn",
                     "entity_ids": "Entiteter som dette kamera sporer",
@@ -128,7 +128,7 @@
     },
     "device_automation": {
         "trigger_type": {
-            "starting_over": "Karrusel begynder forfra"
+            "starting_over": "Karrusel starter forfra"
         }
     },
     "issues": {

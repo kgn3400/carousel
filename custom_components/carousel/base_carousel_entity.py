@@ -12,6 +12,7 @@ from homeassistant.const import (
     ATTR_FRIENDLY_NAME,
     ATTR_ICON,
     ATTR_UNIT_OF_MEASUREMENT,
+    MATCH_ALL,
 )
 from homeassistant.core import (
     CALLBACK_TYPE,
@@ -68,6 +69,7 @@ class BaseCarouselEntity(Entity):
     """Base Carousel entity."""
 
     restart_timer: bool = True
+    _unrecorded_attributes = frozenset({MATCH_ALL})
 
     # ------------------------------------------------------
     def __init__(
