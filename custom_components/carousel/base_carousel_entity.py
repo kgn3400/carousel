@@ -357,7 +357,7 @@ class BaseCarouselEntity(Entity):
                 },
             )
             self.entities_list.pop(self.current_entity_pos)
-            await self.async_refresh_common_first_part()
+            await self.async_get_next_entity()
             return
 
     # ------------------------------------------------------------------

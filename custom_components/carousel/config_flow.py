@@ -165,7 +165,7 @@ async def _validate_input(
 
 # ------------------------------------------------------------------
 async def choose_options_step(options: dict[str, Any]) -> str:
-    """Return next step_id for options flow according to template_type."""
+    """Return next step_id for options flow according to platform type."""
     return cast(str, options[CONF_PLATFORM_TYPE])
 
 
@@ -271,6 +271,7 @@ OPTIONS_FLOW = {
 }
 
 
+# ------------------------------------------------------------------
 # ------------------------------------------------------------------
 class ConfigFlowHandler(SchemaConfigFlowHandler, domain=DOMAIN):
     """Handle a config or options flow."""
