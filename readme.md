@@ -14,7 +14,8 @@ Or click [![My Home Assistant](https://img.shields.io/badge/Home%20Assistant-%23
 ## Configuration
 
 Configuration is setup via UI in Home assistant. To add one, go to [Settings > Devices & Services > Helpers](https://my.home-assistant.io/redirect/helpers) and click the add button. Next choose the [Carousel helper](https://my.home-assistant.io/redirect/config_flow_start?domain=carousel) option.
-Or click [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=carousel)
+Or click
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=carousel)
 
 
 <!-- <img src="images/config.png" width="400" height="auto" alt="Config"> -->
