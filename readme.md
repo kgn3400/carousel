@@ -28,23 +28,23 @@ It's possible to synchronize the rotation between multiple carousels by using th
 The optional 'show if template' config settings is used to decide if the entity should be shown. The evaluated result should be True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
 If there is no entities to show, then the Carousel entity state will be set to unknown. And the state can be used in the conditional card to decide if the card should be shown.
 
-## Services
+## Actions
 
-Available services: __add__, __remove__, __show_entity__, __show_next__ and __show_prev__
+Available actions: __add__, __remove__, __show_entity__, __show_next__ and __show_prev__
 
-### Service carousel.binary_sensor_add/carousel.sensor_add
+### Action carousel.binary_sensor_add/carousel.sensor_add
 
 Add entity to Carousel helper.
 
-### Service carousel.binary_sensor_remove/carousel.sensor_remove
+### Action carousel.binary_sensor_remove/carousel.sensor_remove
 
 Remove entity from Carousel helper.
 
-### Service carousel.binary_sensor_show_next/carousel.sensor_show_next
+### Action carousel.binary_sensor_show_next/carousel.sensor_show_next
 
 Show next entity in Carousel helper.
 
-### Service carousel.binary_sensor_show_prev/carousel.sensor_show_prev
+### Action carousel.binary_sensor_show_prev/carousel.sensor_show_prev
 
 Show previous ext entity in Carousel helper.
 
