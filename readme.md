@@ -1,4 +1,4 @@
-# Carousel helper
+# Carousel custom integration helper for Home Assistant
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/kgn3400/carousel)
 ![GitHub all releases](https://img.shields.io/github/downloads/kgn3400/carousel/total)
@@ -6,10 +6,12 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/carousel)
 [![Validate% with hassfest](https://github.com/kgn3400/carousel/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/carousel/actions/workflows/hassfest.yaml)
 
-The Carousel helper integration allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
+The Carousel integration helper allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities in the same card, with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
 
 For installation instructions until the Carousel helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
 Or click [![My Home Assistant](https://img.shields.io/badge/Home%20Assistant-%2341BDF5.svg?style=flat&logo=home-assistant&label=Add%20to%20HACS)](https://my.home-assistant.io/redirect/hacs_repository/?owner=kgn3400&repository=carousel&category=integration)
+
+---
 
 ## Configuration
 
@@ -27,6 +29,8 @@ It's possible to synchronize the rotation between multiple carousels by using th
 
 The optional 'show if template' config settings is used to decide if the entity should be shown. The evaluated result should be True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
 If there is no entities to show, then the Carousel entity state will be set to unknown. And the state can be used in the conditional card to decide if the card should be shown.
+
+---
 
 ## Actions
 
