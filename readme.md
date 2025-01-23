@@ -21,7 +21,7 @@ Or click
 
 
 <!-- <img src="images/config.png" width="400" height="auto" alt="Config"> -->
-<img src="https://github.com/kgn3400/carousel/blob/main/images/config.png" width="400" height="auto" alt="Config">
+<img src="/assets/config.png" width="400" height="auto" alt="Config">
 <br/>
 <br/>
 
