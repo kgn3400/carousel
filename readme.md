@@ -20,7 +20,7 @@ Or click
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=carousel)
 
 <!-- <img src="images/config.png" width="400" height="auto" alt="Config"> -->
-<img src="/assets/config.png" width="400" height="auto" alt="Config">
+<img src="https://kgn3400.github.io/carousel/assets/config.png" width="400" height="auto" alt="Config">
 <br/>
 <br/>
 
