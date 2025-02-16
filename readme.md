@@ -1,11 +1,15 @@
-# Carousel custom integration helper for Home Assistant
-
+<!-- markdownlint-disable MD041 -->
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/kgn3400/carousel)
 ![GitHub all releases](https://img.shields.io/github/downloads/kgn3400/carousel/total)
 ![GitHub last commit](https://img.shields.io/github/last-commit/kgn3400/carousel)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kgn3400/carousel)
 [![Validate% with hassfest](https://github.com/kgn3400/carousel/workflows/Validate%20with%20hassfest/badge.svg)](https://github.com/kgn3400/carousel/actions/workflows/hassfest.yaml)
 
+<img align="left" width="80" height="80" src="https://kgn3400.github.io/carousel/assets/icon.png" alt="App icon">
+
+# Carousel
+
+<br/>
 The Carousel integration helper allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities in the same card, with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
 
 For installation instructions until the Carousel helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
