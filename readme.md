@@ -12,6 +12,13 @@
 <br/>
 The Carousel integration helper allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities in the same card, with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
 
+<br/>
+<br/>
+
+<img src="https://kgn3400.github.io/carousel/assets/carousel_video.png" width="400" height="auto" alt="Carousel video">
+
+<br/>
+<br/>
 For installation instructions until the Carousel helper is part of HACS, [see this guide](https://hacs.xyz/docs/faq/custom_repositories).
 Or click [![My Home Assistant](https://img.shields.io/badge/Home%20Assistant-%2341BDF5.svg?style=flat&logo=home-assistant&label=Add%20to%20HACS)](https://my.home-assistant.io/redirect/hacs_repository/?owner=kgn3400&repository=carousel&category=integration)
 
@@ -30,7 +37,7 @@ Or click
 
 It's possible to synchronize the rotation between multiple carousels by using the same optional Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
 
-The optional 'show if template' config settings is used to decide if the entity should be shown. The evaluated result should be True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
+The optional 'show if template' config settings is used to decide if the entity should be shown. The evaluated result should return True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
 If there is no entities to show, then the Carousel entity state will be set to unknown. And the state can be used in the conditional card to decide if the card should be shown.
 
 ---
