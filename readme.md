@@ -15,7 +15,7 @@ The Carousel integration helper allows you to create a binary_sensor or sensor w
 <br/>
 <br/>
 
-<img src="https://kgn3400.github.io/carousel/assets/carousel_video.png" width="400" height="auto" alt="Carousel video">
+<img src="https://kgn3400.github.io/carousel/assets/carousel_video.gif" width="400" height="auto" alt="Carousel video">
 
 <br/>
 <br/>
