@@ -1,242 +1,242 @@
 {
-    "title": "Karrusel",
-    "entity_component": {
-        "_": {
-            "name": "Karrusel"
-        }
-    },
-    "config": {
-        "abort": {
-            "already_configured": "Enheden er allerede konfigureret"
-        },
-        "error": {
-            "missing_selection": "Ingen entiteter valgt",
-            "unknown": "Uventet fejl"
-        },
-        "step": {
-            "user": {
-                "title": "Karrusel hjælper",
-                "description": "Karrusel hjælperen giver dig mulighed for at oprette en sensor, som roterer mellem de valgte entiteter.",
-                "menu_options": {
-                    "binary_sensor": "Tilføj binær sensor karrusel",
-                    "camera": "Tilføj kamera karrusel",
-                    "sensor": "Tilføj sensor karrusel"
-                }
-            },
-            "sensor": {
-                "title": "Karrusel hjælper",
-                "data": {
-                    "name": "Sensor karrusel navn",
-                    "entity_ids": "Entiteter denne sensor sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter sensorer hvert minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk",
-                    "show_if_template": "Vis hvis skabelon"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede Entiteter.",
-                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
-                }
-            },
-            "binary_sensor": {
-                "title": "Karrusel hjælper",
-                "data": {
-                    "name": "Binær sensor karrusel navn",
-                    "entity_ids": "Entiteter som denne binære sensor sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter binære sensorer hvert minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk",
-                    "show_if_template": "Vis hvis skabelon"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
-                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
-                }
-            },
-            "camera": {
-                "title": "Karrusel hjælper",
-                "data": {
-                    "name": "Kamera karrusel navn",
-                    "entity_ids": "Entiteter som dette kamera sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter kameraer hver minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
-                }
-            }
-        }
-    },
-    "options": {
-        "abort": {
-            "already_configured": "Enheden er allerede konfigureret"
-        },
-        "error": {
-            "missing_selection": "Ingen entiteter valgt",
-            "same_master": "Master interval udløser er det samme som nuværende enhed",
-            "unknown": "Uventet fejl"
-        },
-        "step": {
-            "binary_sensor": {
-                "data": {
-                    "name": "Binær sensor navn",
-                    "entity_ids": "Entiteter som denne binære sensor sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter binære sensorer hvert minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk",
-                    "show_if_template": "Vis hvis skabelon"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
-                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
-                }
-            },
-            "sensor": {
-                "data": {
-                    "name": "Sensor navn",
-                    "entity_ids": "Entiteter denne sensor sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter sensorer hvert minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotationsudløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk",
-                    "show_if_template": "Vis hvis skabelon"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
-                    "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
-                }
-            },
-            "camera": {
-                "data": {
-                    "name": "Kamera navn",
-                    "entity_ids": "Entiteter som dette kamera sporer",
-                    "icon": "Ikon",
-                    "rotate_every_minutes": "Roter kameraer hver minut",
-                    "listen_to_timer_trigger": "Brug Timer hjælper som rotations udløser",
-                    "restart_timer": "Genstart Timer hjælper automatisk"
-                },
-                "data_description": {
-                    "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
-                }
-            }
-        }
-    },
-    "device_automation": {
-        "trigger_type": {
-            "starting_over": "Karrusel starter forfra"
-        }
-    },
-    "issues": {
-        "missing_entity": {
-            "description": "Det ser ud til, at entiteten `{entity}` enten er blevet slettet eller omdøbt, som bruges i Karrusel hjælperen `{carousel_helper}`.\n\n Venligst løs dette problem.",
-            "title": "Karrusel hjælper: Entitet slettet eller omdøbt"
-        },
-        "missing_timer_entity": {
-            "description": "Det ser ud til, at Timer hjælpefunktionen `{timer_entity}` enten er blevet slettet eller omdøbt som brug i Karrusel hjælpefunktionen `{entity}`.\n\n Venligst ret dette problem.",
-            "title": "Karrusel hjælper: Timer hjælper slettet eller omdøbt"
-        },
-        "template_error": {
-            "description": "Behandling af vis hvis skabelon `{template}` i Karrusel hjælperen `{carousel_helper}` fejler.\nFejl: `{error_txt}` \n\n Venligst ret dette problem.",
-            "title": "Karrusel hjælper: Skabelon fejl"
-        }
-    },
-    "services": {
-        "sensor_add": {
-            "description": "Tilføj sensor til karrusel.",
-            "name": "Tilføj",
-            "fields": {
-                "add_entity_id": {
-                    "description": "Tilføj sensor til karrusel.",
-                    "name": "Sensor"
-                },
-                "show_x_times": {
-                    "description": "Vis sensor x gange før fjernelse.",
-                    "name": "Vis"
-                },
-                "show_for": {
-                    "description": "Vis sensoren i en periode før du fjerner den.",
-                    "name": "Vis for"
-                }
-            }
-        },
-        "sensor_show_next": {
-            "description": "Vis næste sensor.",
-            "name": "Vis næste sensor"
-        },
-        "sensor_show_prev": {
-            "description": "Vis den forrige sensor.",
-            "name": "Vis den forrige sensor"
-        },
-        "sensor_remove": {
-            "description": "Fjern sensor fra karrusel.",
-            "name": "Fjern sensor",
-            "fields": {
-                "remove_entity_id": {
-                    "description": "Sensor der skal fjernes.",
-                    "name": "Sensor"
-                }
-            }
-        },
-        "sensor_show_entity": {
-            "description": "Vis sensor i karrusel.",
-            "name": "Vis sensor",
-            "fields": {
-                "show_entity_id": {
-                    "description": "Sensor til visning.",
-                    "name": "Sensor"
-                }
-            }
-        },
-        "binary_sensor_add": {
-            "description": "Tilføj binær sensor til karrusel.",
-            "name": "Tilføj",
-            "fields": {
-                "add_entity_id": {
-                    "description": "Tilføj binær sensor til karrusel.",
-                    "name": "Binær sensor"
-                },
-                "show_x_times": {
-                    "description": "Vis binær sensor x gange før fjernelse.",
-                    "name": "Vis"
-                },
-                "show_for": {
-                    "description": "Vis binær sensor for en periode før den fjernes.",
-                    "name": "Vis for"
-                }
-            }
-        },
-        "binary_sensor_show_next": {
-            "description": "Vis næste binære sensor.",
-            "name": "Vis næste binære sensor"
-        },
-        "binary_sensor_show_prev": {
-            "description": "Vis den forrige binære sensor.",
-            "name": "Vis den forrige binære sensor"
-        },
-        "binary_sensor_remove": {
-            "description": "Fjern binær sensor fra karrusel.",
-            "name": "Fjern binær sensor",
-            "fields": {
-                "remove_entity_id": {
-                    "description": "Sensor der skal fjernes.",
-                    "name": "Sensor"
-                }
-            }
-        },
-        "binary_sensor_show_entity": {
-            "description": "Vis binær sensor i karrusel.",
-            "name": "Vis binær sensor",
-            "fields": {
-                "show_entity_id": {
-                    "description": "Binær sensor der skal vises.",
-                    "name": "Binær sensor"
-                }
-            }
-        }
+  "title": "Karrusel",
+  "entity_component": {
+    "_": {
+      "name": "Karrusel"
     }
+  },
+  "config": {
+    "abort": {
+      "already_configured": "Enheden er allerede konfigureret"
+    },
+    "error": {
+      "missing_selection": "Ingen entiteter valgt",
+      "unknown": "Uventet fejl"
+    },
+    "step": {
+      "user": {
+        "title": "Karrusel hjælper",
+        "description": "Karrusel hjælperen giver dig mulighed for at oprette en sensor, som roterer mellem de valgte entiteter.",
+        "menu_options": {
+          "binary_sensor": "Tilføj binær sensor karrusel",
+          "camera": "Tilføj kamera karrusel",
+          "sensor": "Tilføj sensor karrusel"
+        }
+      },
+      "sensor": {
+        "title": "Karrusel hjælper",
+        "data": {
+          "name": "Sensor karrusel navn",
+          "entity_ids": "Entiteter denne sensor sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter sensorer hvert minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotationsudløser",
+          "restart_timer": "Genstart Timer hjælper automatisk",
+          "show_if_template": "Vis hvis skabelon"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede Entiteter.",
+          "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
+        }
+      },
+      "binary_sensor": {
+        "title": "Karrusel hjælper",
+        "data": {
+          "name": "Binær sensor karrusel navn",
+          "entity_ids": "Entiteter som denne binære sensor sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter binære sensorer hvert minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotationsudløser",
+          "restart_timer": "Genstart Timer hjælper automatisk",
+          "show_if_template": "Vis hvis skabelon"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+          "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
+        }
+      },
+      "camera": {
+        "title": "Karrusel hjælper",
+        "data": {
+          "name": "Kamera karrusel navn",
+          "entity_ids": "Entiteter som dette kamera sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter kameraer hver minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotationsudløser",
+          "restart_timer": "Genstart Timer hjælper automatisk"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
+        }
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Enheden er allerede konfigureret"
+    },
+    "error": {
+      "missing_selection": "Ingen entiteter valgt",
+      "same_master": "Master interval udløser er det samme som nuværende enhed",
+      "unknown": "Uventet fejl"
+    },
+    "step": {
+      "binary_sensor": {
+        "data": {
+          "name": "Binær sensor navn",
+          "entity_ids": "Entiteter som denne binære sensor sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter binære sensorer hvert minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotationsudløser",
+          "restart_timer": "Genstart Timer hjælper automatisk",
+          "show_if_template": "Vis hvis skabelon"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+          "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
+        }
+      },
+      "sensor": {
+        "data": {
+          "name": "Sensor navn",
+          "entity_ids": "Entiteter denne sensor sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter sensorer hvert minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotationsudløser",
+          "restart_timer": "Genstart Timer hjælper automatisk",
+          "show_if_template": "Vis hvis skabelon"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter.",
+          "show_if_template": "Hvis entiteterne har den samme tilstand/attribut type, kan en skabelon bruges til at bestemme om en entitet skal visses. Værdier = state og dict state_attributes."
+        }
+      },
+      "camera": {
+        "data": {
+          "name": "Kamera navn",
+          "entity_ids": "Entiteter som dette kamera sporer",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Roter kameraer hver minut",
+          "listen_to_timer_trigger": "Eller brug Timer hjælper som rotations udløser",
+          "restart_timer": "Genstart Timer hjælper automatisk"
+        },
+        "data_description": {
+          "icon": "Hvis ikonet ikke er udfyldt, bruges ikonet fra de sporede entiteter."
+        }
+      }
+    }
+  },
+  "device_automation": {
+    "trigger_type": {
+      "starting_over": "Karrusel starter forfra"
+    }
+  },
+  "issues": {
+    "missing_entity": {
+      "description": "Det ser ud til, at entiteten `{entity}` enten er blevet slettet eller omdøbt, som bruges i Karrusel hjælperen `{carousel_helper}`.\n\n Venligst løs dette problem.",
+      "title": "Karrusel hjælper: Entitet slettet eller omdøbt"
+    },
+    "missing_timer_entity": {
+      "description": "Det ser ud til, at Timer hjælpefunktionen `{timer_entity}` enten er blevet slettet eller omdøbt som brug i Karrusel hjælpefunktionen `{entity}`.\n\n Venligst ret dette problem.",
+      "title": "Karrusel hjælper: Timer hjælper slettet eller omdøbt"
+    },
+    "template_error": {
+      "description": "Behandling af vis hvis skabelon `{template}` i Karrusel hjælperen `{carousel_helper}` fejler.\nFejl: `{error_txt}` \n\n Venligst ret dette problem.",
+      "title": "Karrusel hjælper: Skabelon fejl"
+    }
+  },
+  "services": {
+    "sensor_add": {
+      "description": "Tilføj sensor til karrusel.",
+      "name": "Tilføj",
+      "fields": {
+        "add_entity_id": {
+          "description": "Tilføj sensor til karrusel.",
+          "name": "Sensor"
+        },
+        "show_x_times": {
+          "description": "Vis sensor x gange før fjernelse.",
+          "name": "Vis"
+        },
+        "show_for": {
+          "description": "Vis sensoren i en periode før du fjerner den.",
+          "name": "Vis for"
+        }
+      }
+    },
+    "sensor_show_next": {
+      "description": "Vis næste sensor.",
+      "name": "Vis næste sensor"
+    },
+    "sensor_show_prev": {
+      "description": "Vis den forrige sensor.",
+      "name": "Vis den forrige sensor"
+    },
+    "sensor_remove": {
+      "description": "Fjern sensor fra karrusel.",
+      "name": "Fjern sensor",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Sensor der skal fjernes.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "sensor_show_entity": {
+      "description": "Vis sensor i karrusel.",
+      "name": "Vis sensor",
+      "fields": {
+        "show_entity_id": {
+          "description": "Sensor til visning.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_add": {
+      "description": "Tilføj binær sensor til karrusel.",
+      "name": "Tilføj",
+      "fields": {
+        "add_entity_id": {
+          "description": "Tilføj binær sensor til karrusel.",
+          "name": "Binær sensor"
+        },
+        "show_x_times": {
+          "description": "Vis binær sensor x gange før fjernelse.",
+          "name": "Vis"
+        },
+        "show_for": {
+          "description": "Vis binær sensor for en periode før den fjernes.",
+          "name": "Vis for"
+        }
+      }
+    },
+    "binary_sensor_show_next": {
+      "description": "Vis næste binære sensor.",
+      "name": "Vis næste binære sensor"
+    },
+    "binary_sensor_show_prev": {
+      "description": "Vis den forrige binære sensor.",
+      "name": "Vis den forrige binære sensor"
+    },
+    "binary_sensor_remove": {
+      "description": "Fjern binær sensor fra karrusel.",
+      "name": "Fjern binær sensor",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Sensor der skal fjernes.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_show_entity": {
+      "description": "Vis binær sensor i karrusel.",
+      "name": "Vis binær sensor",
+      "fields": {
+        "show_entity_id": {
+          "description": "Binær sensor der skal vises.",
+          "name": "Binær sensor"
+        }
+      }
+    }
+  }
 }

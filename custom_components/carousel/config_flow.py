@@ -34,6 +34,7 @@ from .const import (
     CONF_ROTATE_EVERY_MINUTES,
     CONF_SHOW_IF_TEMPLATE,
     DOMAIN,
+    StepType,
 )
 
 
@@ -55,7 +56,7 @@ async def _validate_input(
 # ------------------------------------------------------------------
 async def _create_form(
     options: dict[str, Any] | None = None,
-    step: str = "",
+    step: StepType | None = None,
     domain: str = "",
 ) -> vol.Schema:
     """Create a form for step/option."""
@@ -108,7 +109,7 @@ async def _create_form(
     }
 
     match step:
-        case "options":
+        case StepType.OPTIONS:
             match domain:
                 case Platform.BINARY_SENSOR | Platform.SENSOR:
                     return vol.Schema(
@@ -121,7 +122,7 @@ async def _create_form(
                 case _:  # Camera
                     return vol.Schema({**CONFIG_OPTIONS, **CONFIG_OPTIONS_ENTITIES})
 
-        case "config" | _:
+        case StepType.CONFIG | _:
             match domain:
                 case Platform.BINARY_SENSOR | Platform.SENSOR:
                     return vol.Schema(
@@ -175,7 +176,7 @@ async def config_sensor_schema(handler: SchemaCommonFlowHandler) -> vol.Schema:
     handler.options[CONF_PLATFORM_TYPE] = Platform.SENSOR
     return await _create_form(
         handler.options,
-        step="config",
+        step=StepType.CONFIG,
         domain=Platform.SENSOR,
     )
 
@@ -186,7 +187,7 @@ async def config_binary_sensor_schema(handler: SchemaCommonFlowHandler) -> vol.S
     handler.options[CONF_PLATFORM_TYPE] = Platform.BINARY_SENSOR
     return await _create_form(
         handler.options,
-        step="config",
+        step=StepType.CONFIG,
         domain=Platform.BINARY_SENSOR,
     )
 
@@ -197,7 +198,7 @@ async def config_camera_schema(handler: SchemaCommonFlowHandler) -> vol.Schema:
     handler.options[CONF_PLATFORM_TYPE] = Platform.CAMERA
     return await _create_form(
         handler.options,
-        step="config",
+        step=StepType.CONFIG,
         domain=Platform.CAMERA,
     )
 
@@ -206,7 +207,11 @@ async def config_camera_schema(handler: SchemaCommonFlowHandler) -> vol.Schema:
 async def options_sensor_schema(handler: SchemaCommonFlowHandler) -> vol.Schema:
     """Return schema for the sensor config step."""
     handler.options[CONF_PLATFORM_TYPE] = Platform.SENSOR
-    return await _create_form(handler.options, step="options", domain=Platform.SENSOR)
+    return await _create_form(
+        handler.options,
+        step=StepType.OPTIONS,
+        domain=Platform.SENSOR,
+    )
 
 
 # ------------------------------------------------------------------
@@ -214,7 +219,9 @@ async def options_binary_sensor_schema(handler: SchemaCommonFlowHandler) -> vol.
     """Return schema for the sensor config step."""
     handler.options[CONF_PLATFORM_TYPE] = Platform.BINARY_SENSOR
     return await _create_form(
-        handler.options, step="options", domain=Platform.BINARY_SENSOR
+        handler.options,
+        step=StepType.OPTIONS,
+        domain=Platform.BINARY_SENSOR,
     )
 
 
@@ -222,7 +229,11 @@ async def options_binary_sensor_schema(handler: SchemaCommonFlowHandler) -> vol.
 async def options_camera_schema(handler: SchemaCommonFlowHandler) -> vol.Schema:
     """Return schema for the sensor config step."""
     handler.options[CONF_PLATFORM_TYPE] = Platform.CAMERA
-    return await _create_form(handler.options, step="options", domain=Platform.CAMERA)
+    return await _create_form(
+        handler.options,
+        step=StepType.OPTIONS,
+        domain=Platform.CAMERA,
+    )
 
 
 CONFIG_FLOW = {

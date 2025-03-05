@@ -6,13 +6,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from .const import CONF_PLATFORM_TYPE, DOMAIN
+from .const import CONF_PLATFORM_TYPE
 
 
 # ------------------------------------------------------------------
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up State updates from a config entry."""
-    hass.data.setdefault(DOMAIN, {})
+
     tmp_platform: list[Platform] = [
         Platform.__members__[str(entry.options.get(CONF_PLATFORM_TYPE)).upper()]
     ]

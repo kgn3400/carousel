@@ -1,6 +1,6 @@
 """Constants for Carousel integration."""
 
-from enum import Enum
+from enum import StrEnum
 from logging import Logger, getLogger
 
 DOMAIN = "carousel"
@@ -28,8 +28,8 @@ SERVICE_SHOW_FOR = "show_for"
 EVENT_STARTING_OVER = "starting_over"
 
 
-class RefreshType(Enum):
-    """Refresh type."""
+class StepType(StrEnum):
+    """Available entity component types."""
 
-    NORMAL = 1
-    LISTEN_TO_TIMER_TRIGGER = 2
+    CONFIG = "config"
+    OPTIONS = "options"

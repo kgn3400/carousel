@@ -58,7 +58,6 @@ from .const import (
     SERVICE_SHOW_X_TIMES,
     TRANSLATION_KEY_MISSING_ENTITY,
     TRANSLATION_KEY_TEMPLATE_ERROR,
-    RefreshType,
 )
 from .timer_trigger import TimerTrigger
 
@@ -88,7 +87,6 @@ class BaseCarouselEntity(Entity):
         self.current_entity_pos = -1
         self.stay_at_current_pos: bool = False
         self.first_entity: bool = False
-        self.refresh_type: RefreshType = RefreshType.NORMAL
 
         self.timer_trigger: TimerTrigger
 
@@ -106,16 +104,15 @@ class BaseCarouselEntity(Entity):
         self.platform: EntityPlatform = entity_platform.async_get_current_platform()
         self.register_entity_services()
 
-        if self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""):
-            self.refresh_type = RefreshType.LISTEN_TO_TIMER_TRIGGER
-
-            self.timer_trigger = TimerTrigger(
-                self,
-                self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""),
-                self.async_handle_timer_finished,
-                self.entry.options.get(CONF_RESTART_TIMER, False),
-            )
-            self.coordinator.update_interval = None
+        self.timer_trigger = TimerTrigger(
+            self,
+            timer_entity=self.entry.options.get(CONF_LISTEN_TO_TIMER_TRIGGER, ""),
+            duration=timedelta(
+                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
+            ),
+            callback_trigger=self.async_handle_timer_finished,
+            auto_restart=self.entry.options.get(CONF_RESTART_TIMER, False),
+        )
 
         self.device_info = DeviceInfo(
             entry_type=DeviceEntryType.SERVICE,
@@ -256,15 +253,7 @@ class BaseCarouselEntity(Entity):
     async def async_handle_timer_finished(self, error: bool) -> None:
         """Handle timer finished."""
 
-        if error:
-            self.refresh_type = RefreshType.NORMAL
-            self.coordinator.update_interval = timedelta(
-                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-            )
-            return
-
-        if self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
-            await self.coordinator.async_refresh()
+        await self.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
     def find_entity_pos(self, entity_id: str) -> int:
@@ -523,17 +512,6 @@ class BaseCarouselEntity(Entity):
         """Hass started."""
 
         await self.async_verify_entities_exist()
-
-        if self.refresh_type == RefreshType.NORMAL:
-            self.coordinator.update_interval = timedelta(
-                minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-            )
-        elif self.refresh_type == RefreshType.LISTEN_TO_TIMER_TRIGGER:
-            if not await self.timer_trigger.async_validate_timer():
-                self.coordinator.update_interval = timedelta(
-                    minutes=self.entry.options.get(CONF_ROTATE_EVERY_MINUTES, 1)
-                )
-                self.refresh_type = RefreshType.NORMAL
 
         self.async_schedule_update_ha_state()
         await self.coordinator.async_refresh()
