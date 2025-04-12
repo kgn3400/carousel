@@ -56,10 +56,11 @@ from .const import (
     SERVICE_SHOW_ENTITY_ID,
     SERVICE_SHOW_FOR,
     SERVICE_SHOW_X_TIMES,
+    TRANSLATION_KEY_MISSING__TIMER_ENTITY,
     TRANSLATION_KEY_MISSING_ENTITY,
     TRANSLATION_KEY_TEMPLATE_ERROR,
 )
-from .timer_trigger import TimerTrigger
+from .hass_util import TimerTrigger, TimerTriggerErrorEnum
 
 
 # ------------------------------------------------------
@@ -250,8 +251,24 @@ class BaseCarouselEntity(Entity):
             await self.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
-    async def async_handle_timer_finished(self, error: bool) -> None:
+    async def async_handle_timer_finished(self, error: TimerTriggerErrorEnum) -> None:
         """Handle timer finished."""
+
+        if error:
+            match error:
+                case TimerTriggerErrorEnum.MISSING_TIMER_ENTITY:
+                    self.create_issue(
+                        TRANSLATION_KEY_MISSING__TIMER_ENTITY,
+                        {
+                            "timer_entity": self.entry.options.get(
+                                CONF_LISTEN_TO_TIMER_TRIGGER, ""
+                            ),
+                            "entity": self.entity_id,
+                        },
+                    )
+                case TimerTriggerErrorEnum.UNKNOWN_ERROR:
+                    pass
+            return
 
         await self.coordinator.async_refresh()
 
