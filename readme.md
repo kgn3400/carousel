@@ -10,8 +10,7 @@
 # Carousel
 
 <br/>
-The Carousel integration helper allows you to create a binary_sensor or sensor which rotate through a set of the same type of entities in the same card, with a user defined time interval. if the binary_sensors/sensors set has the same attribute, it's possible to use cards which support showing attributes.
-
+The Carousel Integration Helper lets you create a dynamic sensor or binary sensor that automatically rotates through a set of similar entities on the same card, at a time interval you choose. If your selected sensors share the same attribute, you can even use cards that display these attributes for a richer, more interactive dashboard experience. Bring your data to life and keep your interface fresh with the Carousel Integration Helper!
 <br/>
 <br/>
 
@@ -35,13 +34,9 @@ Or click
 <img src="https://kgn3400.github.io/carousel/assets/config.png" width="400" height="auto" alt="Config">
 <br/>
 <br/>
-
-It's possible to synchronize the rotation between multiple carousels by using the same optional Timer helper. Restarting the Timer helper can be done via the Carousel helper or via an automation
-
-The optional 'show if template' config settings is used to decide if the entity should be shown. The evaluated result should return True for the entity to be included in carousel rotation. Template values = state and dict state_attributes.
-If there is no entities to show, then the Carousel entity state will be set to unknown. And the state can be used in the conditional card to decide if the card should be shown.
-
----
+You can synchronize the rotation of multiple carousels by using the same optional Timer helper. The Timer helper can be restarted either directly from the Carousel helper or via an automation.
+The optional ‘show if template’ configuration lets you control whether an entity should be displayed. The template should return True for the entity to be included in the carousel rotation. The template has access to the entity’s state and state attributes.
+If no entities meet the criteria to be shown, the Carousel entity’s state will be set to unknown. You can use this state in a conditional card to control whether the card is displayed.
 
 ## Actions
 
