@@ -63,3 +63,7 @@ Show previous ext entity in Carousel helper.
 ### Carousel starting over
 
 Trigger fired when the carousel starting over with the first entity in the set.
+
+### Support
+
+If you like this integration or find it useful, please consider giving it a ⭐️ on GitHub 👍 Your support is greatly appreciated!
