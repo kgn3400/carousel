@@ -134,121 +134,89 @@ class BaseCarouselEntity(Entity):
                 vol.Optional(SERVICE_SHOW_X_TIMES): cv.positive_int,
                 vol.Optional(SERVICE_SHOW_FOR): cv.time_period,
             },
-            self.async_add_entity_dispatcher,
+            self.async_add_entity,
         )
         self.platform.async_register_entity_service(
             self.platform.domain + "_show_entity",
             {
                 vol.Required(SERVICE_SHOW_ENTITY_ID): cv.string,
             },
-            self.async_show_entity_dispatcher,
+            self.async_show_entity,
         )
         self.platform.async_register_entity_service(
             self.platform.domain + "_show_next",
             {},
-            self.async_show_next_dispatcher,
+            self.async_show_next,
         )
         self.platform.async_register_entity_service(
-            self.platform.domain + "_show_prev",
-            {},
-            self.async_show_prev_dispatcher,
+            self.platform.domain + "_show_prev", {}, self.async_show_prev
         )
         self.platform.async_register_entity_service(
             self.platform.domain + "_remove",
             {
                 vol.Required(SERVICE_REMOVE_ENTITY_ID): cv.string,
             },
-            self.async_remove_entity_dispatcher,
+            self.async_remove_entity,
         )
 
     # ------------------------------------------------------------------
-    async def async_add_entity_dispatcher(
+    async def async_add_entity(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Add entity."""
-
-        await entity.async_add_entity(service_data)
-
-    # ------------------------------------------------------------------
-    async def async_add_entity(self, service_data: ServiceCall) -> None:
-        """Add entity."""
-        self.entities_list.append(
+        entity.entities_list.append(
             BaseEntityInfo(service_data.data.get(SERVICE_ADD_ENTITY_ID), "")
         )
-        await self.async_verify_entities_exist()
+        await entity.async_verify_entities_exist()
 
     # ------------------------------------------------------------------
-    async def async_show_entity_dispatcher(
+    async def async_show_entity(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
-        """Show entity."""
-
-        await entity.async_show_entity(service_data)
-
-    # ------------------------------------------------------------------
-    async def async_show_entity(self, service_data: ServiceCall) -> None:
         """Show entity."""
 
         if (
-            pos := self.find_entity_pos(
+            pos := entity.find_entity_pos(
                 service_data.data.get(SERVICE_SHOW_ENTITY_ID, "")
             )
         ) > -1:
-            self.current_entity_pos = pos
-            self.stay_at_current_pos = True
-            await self.coordinator.async_refresh()
+            entity.current_entity_pos = pos
+            entity.stay_at_current_pos = True
+            await entity.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
-    async def async_show_next_dispatcher(
+    async def async_show_next(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Show next."""
 
-        await entity.async_show_next(service_data)
+        await entity.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
-    async def async_show_next(self, service_data: ServiceCall) -> None:
-        """Show next."""
-
-        await self.coordinator.async_refresh()
-
-    # ------------------------------------------------------------------
-    async def async_show_prev_dispatcher(
+    async def async_show_prev(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
         """Show prev."""
 
-        await entity.async_show_prev(service_data)
-
-    # ------------------------------------------------------------------
-    async def async_show_prev(self, service_data: ServiceCall) -> None:
-        """Show prev."""
-
-        if not self.prev_entity_pos():
+        if not entity.prev_entity_pos():
             return
 
-        await self.coordinator.async_refresh()
+        await entity.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
-    async def async_remove_entity_dispatcher(
+    async def async_remove_entity(
         self, entity: BaseCarouselEntity, service_data: ServiceCall
     ) -> None:
-        """Remove entity."""
-
-        await entity.async_remove_entity(service_data)
-
-    # ------------------------------------------------------------------
-    async def async_remove_entity(self, service_data: ServiceCall) -> None:
         """Remove entity."""
 
         if (
-            pos := self.find_entity_pos(
+            pos := entity.find_entity_pos(
                 service_data.data.get(SERVICE_REMOVE_ENTITY_ID, "")
             )
         ) > -1:
-            del self.entities_list[pos]
-            self.stay_at_current_pos = True
-            await self.coordinator.async_refresh()
+            del entity.entities_list[pos]
+            entity.stay_at_current_pos = True
+            await entity.coordinator.async_refresh()
 
     # ------------------------------------------------------------------
     async def async_handle_timer_finished(self, error: TimerTriggerErrorEnum) -> None:
