@@ -7,9 +7,12 @@
 
 <img align="left" width="80" height="80" src="https://kgn3400.github.io/carousel/assets/icon.png" alt="App icon">
 
-# Carousel
+# Carousel obsolete !!!
 
 <br/>
+
+Use the amazing [Simple swipe card](https://github.com/nutteloost/simple-swipe-card) instead.
+
 The Carousel Integration Helper lets you create a dynamic sensor or binary sensor that automatically rotates through a set of similar entities on the same card, at a time interval you choose. If your selected sensors share the same attribute, you can even use cards that display these attributes for a richer, more interactive dashboard experience. Bring your data to life and keep your interface fresh with the Carousel Integration Helper!
 <br/>
 <br/>
