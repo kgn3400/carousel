@@ -1,0 +1,242 @@
+{
+  "title": "Karusell",
+  "entity_component": {
+    "_": {
+      "name": "Karusell"
+    }
+  },
+  "config": {
+    "abort": {
+      "already_configured": "Enheten är redan konfigurerad"
+    },
+    "error": {
+      "missing_selection": "Inga enheter valda",
+      "unknown": "Oväntat fel"
+    },
+    "step": {
+      "user": {
+        "title": "Karusellhjälpare",
+        "description": "Karusellhjälpen låter dig skapa en sensor som roterar mellan de valda enheterna.",
+        "menu_options": {
+          "binary_sensor": "Lägg till binär sensorkarusell",
+          "camera": "Lägg till kamerakarusell",
+          "sensor": "Lägg till sensorkarusell"
+        }
+      },
+      "sensor": {
+        "title": "Karusellhjälpare",
+        "data": {
+          "name": "Namn på sensorkarusell",
+          "entity_ids": "Enheter som denna sensor spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera sensorerna varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt",
+          "show_if_template": "Visa om mall"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna.",
+          "show_if_template": "Om entiteterna har samma tillstånds-/attributtyp kan en mall användas för att avgöra om den aktuella entiteten ska visas. Värden = tillstånd och dict state_attributes."
+        }
+      },
+      "binary_sensor": {
+        "title": "Karusellhjälpare",
+        "data": {
+          "name": "Namn på binär sensorkarusell",
+          "entity_ids": "Enheter som denna binära sensor spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera binära sensorer varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt",
+          "show_if_template": "Visa om mall"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna.",
+          "show_if_template": "Om entiteterna har samma tillstånds-/attributtyp kan en mall användas för att avgöra om den aktuella entiteten ska visas. Värden = tillstånd och dict state_attributes."
+        }
+      },
+      "camera": {
+        "title": "Karusellhjälpare",
+        "data": {
+          "name": "Kamerakarusellnamn",
+          "entity_ids": "Enheter som den här kameran spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera kamerorna varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna."
+        }
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Enheten är redan konfigurerad"
+    },
+    "error": {
+      "missing_selection": "Inga enheter valda",
+      "same_master": "Huvudintervallutlösaren är densamma som den aktuella enheten",
+      "unknown": "Oväntat fel"
+    },
+    "step": {
+      "binary_sensor": {
+        "data": {
+          "name": "Binär sensornamn",
+          "entity_ids": "Enheter som denna binära sensor spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera binära sensorer varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt",
+          "show_if_template": "Visa om mall"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna.",
+          "show_if_template": "Om entiteterna har samma tillstånds-/attributtyp kan en mall användas för att avgöra om den aktuella entiteten ska visas. Värden = tillstånd och dict state_attributes."
+        }
+      },
+      "sensor": {
+        "data": {
+          "name": "Sensornamn",
+          "entity_ids": "Enheter som denna sensor spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera sensorerna varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt",
+          "show_if_template": "Visa om mall"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna.",
+          "show_if_template": "Om entiteterna har samma tillstånds-/attributtyp kan en mall användas för att avgöra om den aktuella entiteten ska visas. Värden = tillstånd och dict state_attributes."
+        }
+      },
+      "camera": {
+        "data": {
+          "name": "Kameranamn",
+          "entity_ids": "Enheter som den här kameran spårar",
+          "icon": "Ikon",
+          "rotate_every_minutes": "Rotera kamerorna varje minut",
+          "listen_to_timer_trigger": "Eller använd en timerhjälp som rotationsutlösare",
+          "restart_timer": "Starta om timerhjälpen automatiskt"
+        },
+        "data_description": {
+          "icon": "Om ikonen inte är ifylld används ikonen från de spårade enheterna."
+        }
+      }
+    }
+  },
+  "device_automation": {
+    "trigger_type": {
+      "starting_over": "Karusell börjar om"
+    }
+  },
+  "issues": {
+    "missing_entity": {
+      "description": "Det verkar som att antingen entiteten `{entity}` har tagits bort eller bytt namn, vilka används i karusellhjälpen `{carousel_helper}`.\n\nVar god åtgärda problemet.",
+      "title": "Karusellhjälp: Enhet raderad eller omdöpt"
+    },
+    "missing_timer_entity": {
+      "description": "Det verkar som att antingen timerhjälpen `{timer_entity}` har tagits bort eller bytt namn för användning i karusellhjälpen `{entity}`.\n\nVar god åtgärda problemet.",
+      "title": "Karusellhjälp: Timerhjälp borttagen eller bytt namn"
+    },
+    "template_error": {
+      "description": "Rendering visar om mallen `{template}` i karusellhjälpen `{carousel_helper}` slutar med fel.\nFel: `{error_txt}`\n\nVar god åtgärda problemet.",
+      "title": "Karusellhjälp: Mallfel"
+    }
+  },
+  "services": {
+    "sensor_add": {
+      "description": "Lägg till sensor i karusellen.",
+      "name": "Tillägga",
+      "fields": {
+        "add_entity_id": {
+          "description": "Lägg till sensor i karusellen.",
+          "name": "Sensor"
+        },
+        "show_x_times": {
+          "description": "Visa sensorn x gånger innan du tar bort den.",
+          "name": "Visa"
+        },
+        "show_for": {
+          "description": "Visa sensorn under en viss tid innan du tar bort den.",
+          "name": "Visa för"
+        }
+      }
+    },
+    "sensor_show_next": {
+      "description": "Visa nästa sensor.",
+      "name": "Visa nästa sensor"
+    },
+    "sensor_show_prev": {
+      "description": "Visa föregående sensor.",
+      "name": "Visa föregående sensor"
+    },
+    "sensor_remove": {
+      "description": "Ta bort sensorn från karusellen.",
+      "name": "Ta bort sensorn",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Sensor att ta bort.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "sensor_show_entity": {
+      "description": "Visa sensorn i karusellen.",
+      "name": "Visa sensor",
+      "fields": {
+        "show_entity_id": {
+          "description": "Sensor att visa.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_add": {
+      "description": "Lägg till binär sensor till karusellen.",
+      "name": "Tillägga",
+      "fields": {
+        "add_entity_id": {
+          "description": "Lägg till binär sensor till karusellen.",
+          "name": "Binär sensor"
+        },
+        "show_x_times": {
+          "description": "Visa binärsensorn x gånger innan den tas bort.",
+          "name": "Visa"
+        },
+        "show_for": {
+          "description": "Visa binär sensor under en viss tid innan den tas bort.",
+          "name": "Visa för"
+        }
+      }
+    },
+    "binary_sensor_show_next": {
+      "description": "Visa nästa binära sensor.",
+      "name": "Visa nästa binära sensor"
+    },
+    "binary_sensor_show_prev": {
+      "description": "Visa föregående binärsensor.",
+      "name": "Visa föregående binärsensor"
+    },
+    "binary_sensor_remove": {
+      "description": "Ta bort den binära sensorn från karusellen.",
+      "name": "Ta bort binär sensor",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Sensor att ta bort.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_show_entity": {
+      "description": "Visa binär sensor i karusellen.",
+      "name": "Visa binär sensor",
+      "fields": {
+        "show_entity_id": {
+          "description": "Binär sensor att visa.",
+          "name": "Binär sensor"
+        }
+      }
+    }
+  }
+}
