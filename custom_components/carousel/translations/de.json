@@ -1,0 +1,242 @@
+{
+  "title": "Karussell",
+  "entity_component": {
+    "_": {
+      "name": "Karussell"
+    }
+  },
+  "config": {
+    "abort": {
+      "already_configured": "Das Gerät ist bereits konfiguriert"
+    },
+    "error": {
+      "missing_selection": "Keine Objekte ausgewählt",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "step": {
+      "user": {
+        "title": "Karussell-Helfer",
+        "description": "Mit dem Karussell-Helfer können Sie einen Sensor erstellen, der zwischen den ausgewählten Entitäten rotiert.",
+        "menu_options": {
+          "binary_sensor": "Binäres Sensorkarussell hinzufügen",
+          "camera": "Kamerakarussell hinzufügen",
+          "sensor": "Sensorkarussell hinzufügen"
+        }
+      },
+      "sensor": {
+        "title": "Karussell-Helfer",
+        "data": {
+          "name": "Name des Sensorkarussells",
+          "entity_ids": "Entitäten, die dieser Sensor verfolgt",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Drehen Sie die Sensoren jede Minute",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch",
+          "show_if_template": "Anzeigen, wenn Vorlage"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet.",
+          "show_if_template": "Wenn die Entitäten denselben Status/Attributtyp haben, kann mithilfe einer Vorlage entschieden werden, ob die aktuelle Entität angezeigt werden soll. Werte = Status und dict state_attributes."
+        }
+      },
+      "binary_sensor": {
+        "title": "Karussell-Helfer",
+        "data": {
+          "name": "Name des Binärsensor-Karussells",
+          "entity_ids": "Entitäten, die dieser binäre Sensor verfolgt",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Binäre Sensoren jede Minute rotieren",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch",
+          "show_if_template": "Anzeigen, wenn Vorlage"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet.",
+          "show_if_template": "Wenn die Entitäten denselben Status/Attributtyp haben, kann mithilfe einer Vorlage entschieden werden, ob die aktuelle Entität angezeigt werden soll. Werte = Status und dict state_attributes."
+        }
+      },
+      "camera": {
+        "title": "Karussell-Helfer",
+        "data": {
+          "name": "Name des Kamerakarussells",
+          "entity_ids": "Von dieser Kamera verfolgte Objekte",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Kameras jede Minute rotieren",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet."
+        }
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "Das Gerät ist bereits konfiguriert"
+    },
+    "error": {
+      "missing_selection": "Keine Objekte ausgewählt",
+      "same_master": "Der Masterintervall-Trigger ist derselbe wie die aktuelle Entität",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "step": {
+      "binary_sensor": {
+        "data": {
+          "name": "Binärer Sensorname",
+          "entity_ids": "Entitäten, die dieser binäre Sensor verfolgt",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Binäre Sensoren jede Minute rotieren",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch",
+          "show_if_template": "Anzeigen, wenn Vorlage"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet.",
+          "show_if_template": "Wenn die Entitäten denselben Status/Attributtyp haben, kann mithilfe einer Vorlage entschieden werden, ob die aktuelle Entität angezeigt werden soll. Werte = Status und dict state_attributes."
+        }
+      },
+      "sensor": {
+        "data": {
+          "name": "Sensorname",
+          "entity_ids": "Entitäten, die dieser Sensor verfolgt",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Drehen Sie die Sensoren jede Minute",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch",
+          "show_if_template": "Anzeigen, wenn Vorlage"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet.",
+          "show_if_template": "Wenn die Entitäten denselben Status/Attributtyp haben, kann mithilfe einer Vorlage entschieden werden, ob die aktuelle Entität angezeigt werden soll. Werte = Status und dict state_attributes."
+        }
+      },
+      "camera": {
+        "data": {
+          "name": "Kameraname",
+          "entity_ids": "Von dieser Kamera verfolgte Objekte",
+          "icon": "Symbol",
+          "rotate_every_minutes": "Kameras jede Minute rotieren",
+          "listen_to_timer_trigger": "Oder verwenden Sie einen Timer-Helfer als Drehauslöser",
+          "restart_timer": "Neustart Timer Helfer automatisch"
+        },
+        "data_description": {
+          "icon": "Wenn das Symbol nicht ausgefüllt ist, wird das Symbol der verfolgten Entitäten verwendet."
+        }
+      }
+    }
+  },
+  "device_automation": {
+    "trigger_type": {
+      "starting_over": "Karussell beginnt von vorne"
+    }
+  },
+  "issues": {
+    "missing_entity": {
+      "description": "Offenbar wurde die Entität „{entity}“, die im Karussell-Helfer „{carousel_helper}“ verwendet wird, gelöscht oder umbenannt.\n\nBitte beheben Sie dieses Problem.",
+      "title": "Karussell-Helfer: Entität gelöscht oder umbenannt"
+    },
+    "missing_timer_entity": {
+      "description": "Offenbar wurde der Timer-Helfer „{timer_entity}“ gelöscht oder für die Verwendung im Karussell-Helfer „{entity}“ umbenannt.\n\nBitte beheben Sie dieses Problem.",
+      "title": "Karussell-Helfer: Timer-Helfer gelöscht oder umbenannt"
+    },
+    "template_error": {
+      "description": "Rendering wird angezeigt, wenn die Vorlage „{template}“ im Karussell-Helper „{carousel_helper}“ mit einem Fehler endet.\n\nFehler: „{error_txt}“\n\nBitte beheben Sie dieses Problem.",
+      "title": "Karussell-Helfer: Vorlagenfehler"
+    }
+  },
+  "services": {
+    "sensor_add": {
+      "description": "Sensor zum Karussell hinzufügen.",
+      "name": "Hinzufügen",
+      "fields": {
+        "add_entity_id": {
+          "description": "Sensor zum Karussell hinzufügen.",
+          "name": "Sensor"
+        },
+        "show_x_times": {
+          "description": "Vor dem Entfernen den Sensor x-mal zeigen.",
+          "name": "Zeigen"
+        },
+        "show_for": {
+          "description": "Vor dem Entfernen den Sensor eine Weile zeigen.",
+          "name": "Anzeigen für"
+        }
+      }
+    },
+    "sensor_show_next": {
+      "description": "Nächsten Sensor anzeigen.",
+      "name": "Nächsten Sensor anzeigen"
+    },
+    "sensor_show_prev": {
+      "description": "Vorherigen Sensor anzeigen.",
+      "name": "Vorherigen Sensor anzeigen"
+    },
+    "sensor_remove": {
+      "description": "Sensor vom Karussell entfernen.",
+      "name": "Sensor entfernen",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Zu entfernender Sensor.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "sensor_show_entity": {
+      "description": "Sensor im Karussell anzeigen.",
+      "name": "Sensor anzeigen",
+      "fields": {
+        "show_entity_id": {
+          "description": "Sensor zum Anzeigen.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_add": {
+      "description": "Binärsensor zum Karussell hinzufügen.",
+      "name": "Hinzufügen",
+      "fields": {
+        "add_entity_id": {
+          "description": "Binärsensor zum Karussell hinzufügen.",
+          "name": "Binärsensor"
+        },
+        "show_x_times": {
+          "description": "Zeigen Sie den Binärsensor x Mal, bevor Sie ihn entfernen.",
+          "name": "Zeigen"
+        },
+        "show_for": {
+          "description": "Zeigen Sie den Binärsensor eine Zeit lang an, bevor Sie ihn entfernen.",
+          "name": "Anzeigen für"
+        }
+      }
+    },
+    "binary_sensor_show_next": {
+      "description": "Nächsten Binärsensor anzeigen.",
+      "name": "Nächsten Binärsensor anzeigen"
+    },
+    "binary_sensor_show_prev": {
+      "description": "Vorherigen Binärsensor anzeigen.",
+      "name": "Vorherigen Binärsensor anzeigen"
+    },
+    "binary_sensor_remove": {
+      "description": "Entfernen Sie den Binärsensor vom Karussell.",
+      "name": "Binärsensor entfernen",
+      "fields": {
+        "remove_entity_id": {
+          "description": "Zu entfernender Sensor.",
+          "name": "Sensor"
+        }
+      }
+    },
+    "binary_sensor_show_entity": {
+      "description": "Binärsensor im Karussell anzeigen.",
+      "name": "Binärsensor anzeigen",
+      "fields": {
+        "show_entity_id": {
+          "description": "Binärsensor zum Anzeigen.",
+          "name": "Binärsensor"
+        }
+      }
+    }
+  }
+}
